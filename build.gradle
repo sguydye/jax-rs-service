@@ -1,0 +1,53 @@
+project.group 'com.sguydye'
+project.version '0.1.0'
+
+project.ext {
+    springVersion = "4.3.4.RELEASE"
+    slf4jVersion = ""
+    cxfVersion = "3.1.9"
+    jacksonVersion = "1.9.0"
+    hibernateVersion = "5.2.5.Final"
+    hibernateValidatorVersion = "5.3.4.Final"
+    MSSQLDriverVersion = "6.1.0.jre8"
+    cxfArtifacts = [
+            'cxf-rt-transports-http',
+            'cxf-rt-frontend-jaxrs'
+    ]
+    springArtifacts = [
+            'spring-core',
+            'spring-web',
+            'spring-orm'
+    ]
+    hibernateArtifacts = [
+            'hibernate-core',
+            'hibernate-entitymanager'
+    ]
+}
+
+
+apply plugin: 'java'
+apply plugin: 'war'
+apply plugin: 'idea'
+
+
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+    springArtifacts.each { artifact ->
+        compile "org.springframework:$artifact:$springVersion"
+    }
+    cxfArtifacts.each { artifact ->
+        compile "org.apache.cxf:$artifact:$cxfVersion"
+    }
+    hibernateArtifacts.each { artifact ->
+        compile "org.hibernate:$artifact:$hibernateVersion"
+    }
+    compile "com.microsoft.sqlserver:mssql-jdbc:$MSSQLDriverVersion"
+    compile "org.hibernate:hibernate-validator:$hibernateValidatorVersion"
+    compile "org.codehaus.jackson:jackson-jaxrs:$jacksonVersion"
+    testCompile "junit:junit:4.11"
+}
