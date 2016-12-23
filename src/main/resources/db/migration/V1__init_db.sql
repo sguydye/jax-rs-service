@@ -1,0 +1,3 @@
+CREATE TABLE example (
+Name VARCHAR(64) NOT NULL
+)

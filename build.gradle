@@ -1,5 +1,16 @@
 project.group 'com.sguydye'
 project.version '0.1.0'
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "gradle.plugin.com.boxfuse.client:flyway-release:4.0.3"
+        classpath "com.microsoft.sqlserver:mssql-jdbc:6.1.0.jre8"
+    }
+}
 
 project.ext {
     springVersion = "4.3.4.RELEASE"
@@ -36,11 +47,12 @@ project.ext {
     ]
 }
 
-
 apply plugin: 'java'
 apply plugin: 'war'
 apply plugin: 'idea'
 apply plugin: 'jacoco'
+apply plugin: "org.flywaydb.flyway"
+
 
 jacoco {
     toolVersion jacocoVersion
@@ -122,4 +134,6 @@ jacocoTestReport {
         }
     }
 }
+
 check.dependsOn jacocoTestReport
+build.dependsOn flywayMigrate
