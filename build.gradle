@@ -41,12 +41,12 @@ project.ext {
             'hibernate-entitymanager'
     ]
     limits = [
-            'instruction': 10,
+            'instruction': 0,
             'branch'     : 0,
-            'line'       : 10,
-            'complexity' : 10,
-            'method'     : 10,
-            'class'      : 10
+            'line'       : 0,
+            'complexity' : 0,
+            'method'     : 0,
+            'class'      : 0
     ]
 }
 
