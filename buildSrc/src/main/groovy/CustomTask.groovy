@@ -10,25 +10,16 @@ class SQLTask extends DefaultTask {
 
     @TaskAction
     def run() {
-        Properties properties = new Properties()
-        File propertiesFile = new File('gradle.properties');
-        propertiesFile.withInputStream {
-            properties.load(it)
-        }
-        String dbName;
-        properties.getProperty("flyway.url").split(";").each {
-            if (it.contains("databaseName"))
-                dbName = it.substring(13)
-            else if (it.contains("jdbc:"))
-                properties.setProperty("flyway.url", it);
-        }
+        String url = project.ext["flyway.url"].toString().substring(0, project.ext["flyway.url"].toString().indexOf(";"));
 
-        Sql sql = Sql.newInstance(properties.getProperty("flyway.url"), properties.getProperty("flyway.user"),
-                properties.getProperty("flyway.password"), properties.getProperty("flyway.driver"));
+        Sql sql = Sql.newInstance(url, project.ext["flyway.user"],
+                project.ext["flyway.password"], project.ext["flyway.driver"]);
 
-        def query = "IF NOT EXISTS (SELECT * FROM sys.databases WHERE name = $dbName) CREATE DATABASE ${Sql.expand(dbName)}"
+        def query1 = "IF EXISTS (SELECT * FROM sys.databases WHERE name = 'metadata') DROP DATABASE metadata"
+        def query2 = "CREATE DATABASE metadata"
         try {
-            sql.execute(query)
+            sql.execute(query1)
+            sql.execute(query2)
         } catch (SQLException e) {
             logger.quiet e.message
         } finally {

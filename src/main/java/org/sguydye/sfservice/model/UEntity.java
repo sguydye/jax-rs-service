@@ -5,8 +5,26 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
-@Table(name = "Entities")
+@Table(name = "Entity")
 public class UEntity {
+
+    @Id
+    @GeneratedValue
+    @Column(name = "ID")
+    private int id;
+
+    @NotNull
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "dbName")
+    private String dbName;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "entity")
+    private List<Field> fields;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "entity")
+    private List<Constraint> constraints;
 
     public UEntity() {
     }
@@ -15,20 +33,10 @@ public class UEntity {
         this.name = name;
     }
 
-    @Id
-    @GeneratedValue
-    @Column(name = "ID")
-    private int id;
-
-    @Column(name = "userID")
-    private int userID;
-
-    @NotNull
-    @Column(name = "name")
-    private String name;
-
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "entity")
-    private List<Field> fields;
+    public UEntity(String name, String dbName) {
+        this.name = name;
+        this.dbName = dbName;
+    }
 
     public int getId() {
         return id;
@@ -36,14 +44,6 @@ public class UEntity {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public int getUserID() {
-        return userID;
-    }
-
-    public void setUserID(int userID) {
-        this.userID = userID;
     }
 
     public String getName() {
@@ -54,12 +54,28 @@ public class UEntity {
         this.name = name;
     }
 
+    public String getDbName() {
+        return dbName;
+    }
+
+    public void setDbName(String dbName) {
+        this.dbName = dbName;
+    }
+
     public List<Field> getFields() {
         return fields;
     }
 
     public void setFields(List<Field> fields) {
         this.fields = fields;
+    }
+
+    public List<Constraint> getConstraints() {
+        return constraints;
+    }
+
+    public void setConstraints(List<Constraint> constraints) {
+        this.constraints = constraints;
     }
 
     @Override
@@ -70,14 +86,12 @@ public class UEntity {
         UEntity uEntity = (UEntity) o;
 
         if (id != uEntity.id) return false;
-        if (userID != uEntity.userID) return false;
         return name.equals(uEntity.name);
     }
 
     @Override
     public int hashCode() {
         int result = id;
-        result = 31 * result + userID;
         result = 31 * result + name.hashCode();
         return result;
     }

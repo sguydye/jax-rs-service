@@ -142,7 +142,7 @@ jacocoTestReport {
         }
     }
 }
-task run(type:SQLTask)
+task createDB(type:SQLTask)
 check.dependsOn jacocoTestReport
 check.dependsOn flywayMigrate
-flywayMigrate.dependsOn run
+

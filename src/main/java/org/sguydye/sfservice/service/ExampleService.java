@@ -14,4 +14,6 @@ public interface ExampleService {
     @GET
     @Path("/{id}")
     public ExampleModel getEntity(@PathParam("id") Integer id);
+
+
 }

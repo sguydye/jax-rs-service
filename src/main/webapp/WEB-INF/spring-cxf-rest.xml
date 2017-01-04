@@ -15,6 +15,7 @@
     <jaxrs:server id="CxfServer" address="/">
         <jaxrs:serviceBeans>
             <ref bean="exampleService"/>
+            <ref bean="entityService"/>
         </jaxrs:serviceBeans>
         <jaxrs:extensionMappings>
             <entry key="json" value="application/json"/>

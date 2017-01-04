@@ -7,16 +7,8 @@ import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 @Entity
-@Table(name = "Fields")
+@Table(name = "Field")
 public class Field {
-
-    public Field() {
-    }
-
-    public Field(String name, FieldType type) {
-        this.name = name;
-        this.type = type;
-    }
 
     @Id
     @GeneratedValue
@@ -33,7 +25,7 @@ public class Field {
 
     @Column(name = "type")
     @NotNull
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private FieldType type;
 
     @Column(name = "length")
@@ -42,11 +34,13 @@ public class Field {
     @Column(name = "mantissa")
     private byte mantissa;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "Fields_Constraints", joinColumns = @JoinColumn(name = "fieldID"),
-            inverseJoinColumns = @JoinColumn(name = "constraintID"))
-    private Set<Constraint> constraints;
+    public Field() {
+    }
 
+    public Field(String name, FieldType type) {
+        this.name = name;
+        this.type = type;
+    }
 
     public int getId() {
         return id;
@@ -96,14 +90,6 @@ public class Field {
         this.mantissa = mantissa;
     }
 
-    public Set<Constraint> getConstraints() {
-        return constraints;
-    }
-
-    public void setConstraints(Set<Constraint> constraints) {
-        this.constraints = constraints;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -112,7 +98,6 @@ public class Field {
         Field field = (Field) o;
 
         if (id != field.id) return false;
-        if (length != field.length) return false;
         if (!name.equals(field.name)) return false;
         return type == field.type;
     }
@@ -121,8 +106,6 @@ public class Field {
     public int hashCode() {
         int result = id;
         result = 31 * result + name.hashCode();
-        result = 31 * result + type.hashCode();
-        result = 31 * result + (int) length;
         return result;
     }
 }
