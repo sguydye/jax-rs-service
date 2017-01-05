@@ -1,6 +1,6 @@
 package org.sguydye.sfservice.dao;
 
-import org.sguydye.sfservice.model.Field;
+import org.sguydye.sfservice.model.LogicalField;
 
-public interface FieldDao extends GenericDao<Field, Integer> {
+public interface FieldDao extends GenericDao<LogicalField, Integer> {
 }

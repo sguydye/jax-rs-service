@@ -1,6 +1,6 @@
 package org.sguydye.sfservice.dao;
 
-import org.sguydye.sfservice.model.Constraint;
+import org.sguydye.sfservice.model.LogicalConstraint;
 
-public interface ConstraintDao extends GenericDao<Constraint, Integer> {
+public interface ConstraintDao extends GenericDao<LogicalConstraint, Integer> {
 }

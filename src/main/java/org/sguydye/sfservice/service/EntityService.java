@@ -1,7 +1,8 @@
 package org.sguydye.sfservice.service;
 
-import org.sguydye.sfservice.model.UEntity;
+import org.sguydye.sfservice.model.LogicalEntity;
 import javax.ws.rs.*;
+import java.util.List;
 
 
 @Path("/entity")
@@ -9,11 +10,13 @@ import javax.ws.rs.*;
 public interface EntityService {
 
     @GET
+    public List<LogicalEntity> getAllEntities();
+
+    @GET
     @Path("/{id}")
-    public UEntity getEntity(@PathParam("id") Integer id);
+    public LogicalEntity getEntity(@PathParam("id") Integer id);
 
     @POST
     @Consumes("application/json")
-    @Path("/")
-    public void postEntity(UEntity entity);
+    public void postEntity(LogicalEntity entity);
 }

@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -30,7 +29,7 @@ public abstract class GenericDaoImpl<E, K extends Serializable> implements Gener
 
     @Override
     public void save(E entity) {
-        currentSession().save(entity);
+        currentSession().persist(entity);
     }
 
     @Override
@@ -45,15 +44,15 @@ public abstract class GenericDaoImpl<E, K extends Serializable> implements Gener
 
     @Override
     public E find(K key) {
-        return (E) currentSession().find(daoType, key);
+        return (E) currentSession().get(daoType, key);
     }
 
     @Override
-    public List<? extends E> getAll() {
+    public List<E> getAll() {
         CriteriaBuilder criteriaBuilder = currentSession().getCriteriaBuilder();
         CriteriaQuery<? extends E> cq = criteriaBuilder.createQuery(daoType);
         cq.from(daoType);
-        return currentSession().createQuery(cq).getResultList();
+        return (List<E>) currentSession().createQuery(cq).getResultList();
     }
 
     protected Session currentSession() {

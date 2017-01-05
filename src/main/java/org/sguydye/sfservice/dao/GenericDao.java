@@ -11,6 +11,6 @@ public interface GenericDao<E, K> {
 
     public E find(K key);
 
-    public List<? extends E> getAll();
+    public List<E> getAll();
 
 }

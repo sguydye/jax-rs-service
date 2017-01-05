@@ -1,14 +1,18 @@
 package org.sguydye.sfservice.model;
 
+import org.codehaus.jackson.annotate.JsonBackReference;
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.sguydye.sfservice.util.FieldType;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.Set;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "Field")
-public class Field {
+@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
+public class LogicalField implements Serializable {
 
     @Id
     @GeneratedValue
@@ -17,7 +21,8 @@ public class Field {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "entityID")
-    private UEntity entity;
+    @JsonBackReference
+    private LogicalEntity entity;
 
     @Column(name = "name")
     @NotNull
@@ -28,16 +33,18 @@ public class Field {
     @Enumerated(EnumType.STRING)
     private FieldType type;
 
+    @JsonIgnore
     @Column(name = "length")
-    private byte length;
+    private Byte length;
 
+    @JsonIgnore
     @Column(name = "mantissa")
-    private byte mantissa;
+    private Byte mantissa;
 
-    public Field() {
+    public LogicalField() {
     }
 
-    public Field(String name, FieldType type) {
+    public LogicalField(String name, FieldType type) {
         this.name = name;
         this.type = type;
     }
@@ -50,11 +57,11 @@ public class Field {
         this.id = id;
     }
 
-    public UEntity getEntity() {
+    public LogicalEntity getEntity() {
         return entity;
     }
 
-    public void setEntity(UEntity entity) {
+    public void setEntity(LogicalEntity entity) {
         this.entity = entity;
     }
 
@@ -95,11 +102,11 @@ public class Field {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Field field = (Field) o;
+        LogicalField logicalField = (LogicalField) o;
 
-        if (id != field.id) return false;
-        if (!name.equals(field.name)) return false;
-        return type == field.type;
+        if (id != logicalField.id) return false;
+        if (!name.equals(logicalField.name)) return false;
+        return type == logicalField.type;
     }
 
     @Override
@@ -107,5 +114,17 @@ public class Field {
         int result = id;
         result = 31 * result + name.hashCode();
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "LogicalField{" +
+                "id=" + id +
+                ", entity=" + entity +
+                ", name='" + name + '\'' +
+                ", type=" + type +
+                ", length=" + length +
+                ", mantissa=" + mantissa +
+                '}';
     }
 }

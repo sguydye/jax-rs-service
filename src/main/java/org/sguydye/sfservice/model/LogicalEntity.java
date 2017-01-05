@@ -1,12 +1,17 @@
 package org.sguydye.sfservice.model;
 
+import org.codehaus.jackson.annotate.JsonManagedReference;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
 @Table(name = "Entity")
-public class UEntity {
+@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
+public class LogicalEntity implements Serializable {
 
     @Id
     @GeneratedValue
@@ -20,22 +25,18 @@ public class UEntity {
     @Column(name = "dbName")
     private String dbName;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "entity")
-    private List<Field> fields;
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "entity")
+    @JsonManagedReference
+    private List<LogicalField> fields;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "entity")
-    private List<Constraint> constraints;
+    private List<LogicalConstraint> constraints;
 
-    public UEntity() {
+    public LogicalEntity() {
     }
 
-    public UEntity(String name) {
+    public LogicalEntity(String name) {
         this.name = name;
-    }
-
-    public UEntity(String name, String dbName) {
-        this.name = name;
-        this.dbName = dbName;
     }
 
     public int getId() {
@@ -62,19 +63,19 @@ public class UEntity {
         this.dbName = dbName;
     }
 
-    public List<Field> getFields() {
+    public List<LogicalField> getFields() {
         return fields;
     }
 
-    public void setFields(List<Field> fields) {
+    public void setFields(List<LogicalField> fields) {
         this.fields = fields;
     }
 
-    public List<Constraint> getConstraints() {
+    public List<LogicalConstraint> getConstraints() {
         return constraints;
     }
 
-    public void setConstraints(List<Constraint> constraints) {
+    public void setConstraints(List<LogicalConstraint> constraints) {
         this.constraints = constraints;
     }
 
@@ -83,10 +84,10 @@ public class UEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        UEntity uEntity = (UEntity) o;
+        LogicalEntity that = (LogicalEntity) o;
 
-        if (id != uEntity.id) return false;
-        return name.equals(uEntity.name);
+        if (id != that.id) return false;
+        return name.equals(that.name);
     }
 
     @Override
@@ -94,5 +95,16 @@ public class UEntity {
         int result = id;
         result = 31 * result + name.hashCode();
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "LogicalEntity{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", dbName='" + dbName + '\'' +
+                ", fields=" + fields +
+                ", constraints=" + constraints +
+                '}';
     }
 }
