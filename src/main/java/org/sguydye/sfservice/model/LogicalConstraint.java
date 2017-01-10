@@ -1,6 +1,7 @@
 package org.sguydye.sfservice.model;
 
-import org.codehaus.jackson.map.annotate.JsonSerialize;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.sguydye.sfservice.util.ConstraintType;
 
 import javax.persistence.*;
@@ -10,16 +11,16 @@ import java.util.Set;
 
 @Entity
 @Table(name = "[Constraint]")
-@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class LogicalConstraint implements Serializable {
 
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     private int id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "entityID")
     private LogicalEntity entity;
 
@@ -28,7 +29,12 @@ public class LogicalConstraint implements Serializable {
     @Enumerated(EnumType.STRING)
     private ConstraintType type;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "Constraint_Field",
+            joinColumns = @JoinColumn(name = "constraintID"),
+            inverseJoinColumns = @JoinColumn(name = "fieldID")
+    )
     private Set<LogicalField> fields;
 
     public LogicalConstraint() {

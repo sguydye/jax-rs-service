@@ -1,8 +1,9 @@
 package org.sguydye.sfservice.model;
 
-import org.codehaus.jackson.annotate.JsonBackReference;
-import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.sguydye.sfservice.util.FieldType;
 
 import javax.persistence.*;
@@ -11,17 +12,16 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "Field")
-@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class LogicalField implements Serializable {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     private int id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "entityID")
-    @JsonBackReference
     private LogicalEntity entity;
 
     @Column(name = "name")
@@ -38,6 +38,7 @@ public class LogicalField implements Serializable {
     private Byte length;
 
     @JsonIgnore
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     @Column(name = "mantissa")
     private Byte mantissa;
 

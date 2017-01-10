@@ -1,20 +1,22 @@
 package org.sguydye.sfservice.model;
 
-import org.codehaus.jackson.annotate.JsonManagedReference;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "Entity")
-@JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class LogicalEntity implements Serializable {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     private int id;
 
@@ -22,14 +24,14 @@ public class LogicalEntity implements Serializable {
     @Column(name = "name")
     private String name;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     @Column(name = "dbName")
     private String dbName;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "entity")
-    @JsonManagedReference
-    private List<LogicalField> fields;
+    private Set<LogicalField> fields;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "entity")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "entity")
     private List<LogicalConstraint> constraints;
 
     public LogicalEntity() {
@@ -63,11 +65,11 @@ public class LogicalEntity implements Serializable {
         this.dbName = dbName;
     }
 
-    public List<LogicalField> getFields() {
+    public Set<LogicalField> getFields() {
         return fields;
     }
 
-    public void setFields(List<LogicalField> fields) {
+    public void setFields(Set<LogicalField> fields) {
         this.fields = fields;
     }
 

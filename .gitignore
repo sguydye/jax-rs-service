@@ -20,3 +20,6 @@ buildSrc/build
 **/hibernate.properties
 Bad
 Could
+*.iml
+*.ipr
+*.iws
