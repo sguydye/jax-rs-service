@@ -23,16 +23,22 @@ public class EntityServiceImpl implements EntityService {
 
     @Override
     public LogicalEntity getEntity(Integer id) {
-        return entityDao.find(id);
+
+        LogicalEntity entity = entityDao.find(id);
+        System.out.println(entity);
+        return entity;
     }
 
     @Override
     public List<LogicalEntity> getAllEntities() {
+
         return entityDao.getAll();
     }
 
     @Override
     public void postEntity(LogicalEntity entity) {
+
+        System.out.println(entity);
         entityDao.save(entity);
     }
 

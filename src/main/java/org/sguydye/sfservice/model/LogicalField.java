@@ -1,7 +1,6 @@
 package org.sguydye.sfservice.model;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.sguydye.sfservice.util.FieldType;
@@ -13,7 +12,9 @@ import java.io.Serializable;
 @Entity
 @Table(name = "Field")
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-public class LogicalField implements Serializable {
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class LogicalField extends GenericEntity implements Serializable {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,7 +22,7 @@ public class LogicalField implements Serializable {
     private int id;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "entityID")
+    @JoinColumn(name = "entityID", nullable = false)
     private LogicalEntity entity;
 
     @Column(name = "name")
@@ -33,12 +34,10 @@ public class LogicalField implements Serializable {
     @Enumerated(EnumType.STRING)
     private FieldType type;
 
-    @JsonIgnore
     @Column(name = "length")
     private Byte length;
 
-    @JsonIgnore
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+
     @Column(name = "mantissa")
     private Byte mantissa;
 
@@ -82,46 +81,26 @@ public class LogicalField implements Serializable {
         this.type = type;
     }
 
-    public byte getLength() {
+    public Byte getLength() {
         return length;
     }
 
-    public void setLength(byte length) {
+    public void setLength(Byte length) {
         this.length = length;
     }
 
-    public byte getMantissa() {
+    public Byte getMantissa() {
         return mantissa;
     }
 
-    public void setMantissa(byte mantissa) {
+    public void setMantissa(Byte mantissa) {
         this.mantissa = mantissa;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        LogicalField logicalField = (LogicalField) o;
-
-        if (id != logicalField.id) return false;
-        if (!name.equals(logicalField.name)) return false;
-        return type == logicalField.type;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = id;
-        result = 31 * result + name.hashCode();
-        return result;
     }
 
     @Override
     public String toString() {
         return "LogicalField{" +
                 "id=" + id +
-                ", entity=" + entity +
                 ", name='" + name + '\'' +
                 ", type=" + type +
                 ", length=" + length +

@@ -12,8 +12,9 @@ import java.util.Set;
 
 @Entity
 @Table(name = "Entity")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-public class LogicalEntity implements Serializable {
+public class LogicalEntity extends GenericEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,7 +25,6 @@ public class LogicalEntity implements Serializable {
     @Column(name = "name")
     private String name;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     @Column(name = "dbName")
     private String dbName;
 
@@ -79,24 +79,6 @@ public class LogicalEntity implements Serializable {
 
     public void setConstraints(List<LogicalConstraint> constraints) {
         this.constraints = constraints;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        LogicalEntity that = (LogicalEntity) o;
-
-        if (id != that.id) return false;
-        return name.equals(that.name);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = id;
-        result = 31 * result + name.hashCode();
-        return result;
     }
 
     @Override

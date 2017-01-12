@@ -1,6 +1,7 @@
 package org.sguydye.sfservice.model;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.sguydye.sfservice.util.ConstraintType;
 
@@ -11,8 +12,9 @@ import java.util.Set;
 
 @Entity
 @Table(name = "[Constraint]")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-public class LogicalConstraint implements Serializable {
+public class LogicalConstraint extends GenericEntity implements Serializable {
 
 
     @Id
@@ -76,31 +78,5 @@ public class LogicalConstraint implements Serializable {
         this.fields = fields;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
 
-        LogicalConstraint that = (LogicalConstraint) o;
-
-        if (id != that.id) return false;
-        return type == that.type;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = id;
-        result = 31 * result + type.hashCode();
-        return result;
-    }
-
-    @Override
-    public String toString() {
-        return "LogicalConstraint{" +
-                "id=" + id +
-                ", entity=" + entity +
-                ", type=" + type +
-                ", fields=" + fields +
-                '}';
-    }
 }
