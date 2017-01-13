@@ -1,15 +1,15 @@
 package org.sguydye.sfservice.service;
 
 import org.sguydye.sfservice.model.LogicalEntity;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
 
 @Path("/entity")
-@Produces("application/json")
+@Produces(MediaType.APPLICATION_JSON)
 public interface EntityService {
 
     @GET
@@ -20,12 +20,12 @@ public interface EntityService {
     public LogicalEntity getEntity(@PathParam("id") Integer id);
 
     @POST
-    @Consumes("application/json")
+    @Consumes(MediaType.APPLICATION_JSON)
     public void postEntity(LogicalEntity entity);
 
     @PUT
     @Path("/{id}")
-    @Consumes("application/json")
+    @Consumes(MediaType.APPLICATION_JSON)
     public Response updateEntity(@PathParam("id") Integer id, LogicalEntity entity);
 
     @DELETE

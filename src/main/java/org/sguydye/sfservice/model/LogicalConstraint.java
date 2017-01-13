@@ -16,11 +16,10 @@ import java.util.Set;
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class LogicalConstraint extends GenericEntity implements Serializable {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
-    private int id;
+    private Integer id;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "entityID")
@@ -46,11 +45,11 @@ public class LogicalConstraint extends GenericEntity implements Serializable {
         this.type = type;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -78,5 +77,12 @@ public class LogicalConstraint extends GenericEntity implements Serializable {
         this.fields = fields;
     }
 
+    @Override
+    public String toString() {
+        return "LogicalConstraint{" +
+                "id=" + id +
+                ", type=" + type +
+                '}';
+    }
 
 }

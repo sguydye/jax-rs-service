@@ -19,7 +19,7 @@ public class LogicalEntity extends GenericEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
-    private int id;
+    private Integer id;
 
     @NotNull
     @Column(name = "name")
@@ -41,11 +41,11 @@ public class LogicalEntity extends GenericEntity implements Serializable {
         this.name = name;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -81,6 +81,7 @@ public class LogicalEntity extends GenericEntity implements Serializable {
         this.constraints = constraints;
     }
 
+
     @Override
     public String toString() {
         return "LogicalEntity{" +
@@ -91,4 +92,5 @@ public class LogicalEntity extends GenericEntity implements Serializable {
                 ", constraints=" + constraints +
                 '}';
     }
+
 }

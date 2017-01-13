@@ -11,6 +11,28 @@
                         http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd">
 
     <context:component-scan base-package="org.sguydye.sfservice" />
+    
+    <bean id="jsonProvider" class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider">
+        <property name="mapper">
+            <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+                <property name="targetObject">
+                    <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+                        <property name="targetObject"><bean class="com.fasterxml.jackson.databind.ObjectMapper"/></property>
+                        <property name="targetMethod"><value>registerModule</value></property>
+                        <property name="arguments">
+                            <list>
+                                <bean class="com.fasterxml.jackson.datatype.jsr310.JSR310Module" />
+                            </list>
+                        </property>
+                    </bean>
+                </property>
+                <property name="targetMethod"><value>disable</value></property>
+                <property name="arguments">
+                   <value type="com.fasterxml.jackson.databind.SerializationFeature">WRITE_DATES_AS_TIMESTAMPS</value>
+                </property>
+            </bean>
+        </property>
+    </bean>
 
     <jaxrs:server id="CxfServer" address="/">
         <jaxrs:serviceBeans>
@@ -23,7 +45,7 @@
             <cxf:logging/>
         </jaxrs:features>
         <jaxrs:providers>
-            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider" />
+            <ref bean="jsonProvider" />
         </jaxrs:providers>
     </jaxrs:server>
 

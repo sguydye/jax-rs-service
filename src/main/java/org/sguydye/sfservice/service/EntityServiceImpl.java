@@ -1,16 +1,12 @@
 package org.sguydye.sfservice.service;
 
+import org.apache.cxf.common.util.CollectionUtils;
 import org.sguydye.sfservice.dao.EntityDao;
 import org.sguydye.sfservice.model.LogicalEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestBody;
 
-import javax.ws.rs.DELETE;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
@@ -23,22 +19,28 @@ public class EntityServiceImpl implements EntityService {
 
     @Override
     public LogicalEntity getEntity(Integer id) {
-
         LogicalEntity entity = entityDao.find(id);
-        System.out.println(entity);
         return entity;
     }
 
     @Override
     public List<LogicalEntity> getAllEntities() {
-
         return entityDao.getAll();
     }
 
     @Override
     public void postEntity(LogicalEntity entity) {
 
-        System.out.println(entity);
+        if (!CollectionUtils.isEmpty(entity.getFields())) {
+            entity.getFields().forEach(logicalField -> {
+                logicalField.setEntity(entity);
+            });
+        }
+        if (!CollectionUtils.isEmpty(entity.getConstraints())) {
+            entity.getConstraints().forEach(logicalConstraint -> {
+                logicalConstraint.setEntity(entity);
+            });
+        }
         entityDao.save(entity);
     }
 

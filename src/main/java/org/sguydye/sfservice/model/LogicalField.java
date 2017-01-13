@@ -19,7 +19,7 @@ public class LogicalField extends GenericEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
-    private int id;
+    private Integer id;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "entityID", nullable = false)
@@ -49,11 +49,11 @@ public class LogicalField extends GenericEntity implements Serializable {
         this.type = type;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -96,6 +96,7 @@ public class LogicalField extends GenericEntity implements Serializable {
     public void setMantissa(Byte mantissa) {
         this.mantissa = mantissa;
     }
+
 
     @Override
     public String toString() {

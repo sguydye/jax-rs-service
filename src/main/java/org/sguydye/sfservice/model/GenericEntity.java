@@ -1,9 +1,13 @@
 package org.sguydye.sfservice.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @MappedSuperclass
+@JsonIgnoreProperties(value = {"createdDate", "lastModified"}, allowGetters = true)
 public abstract class GenericEntity {
 
     @Column(name = "created")

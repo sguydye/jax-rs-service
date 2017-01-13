@@ -61,6 +61,8 @@ repositories {
     maven {
         url "https://plugins.gradle.org/m2/"
     }
+    mavenCentral()
+
 }
 
 dependencies {
@@ -75,9 +77,8 @@ dependencies {
     }
     compile "com.microsoft.sqlserver:mssql-jdbc:$MSSQLDriverVersion"
     compile "org.hibernate:hibernate-validator:$hibernateValidatorVersion"
-//    compile "org.codehaus.jackson:jackson-jaxrs:$jacksonVersion"
-//    compile "com.fasterxml.jackson.jaxrs:jackson-jaxrs-providers:2.8.5"
     compile "com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:2.8.5"
+    compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.8.5"
     testCompile "junit:junit:4.12"
     testCompile "org.hamcrest:hamcrest-core"
     testCompile "org.hamcrest:hamcrest-library:1.3"
