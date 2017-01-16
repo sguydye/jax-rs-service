@@ -3,6 +3,7 @@ package org.sguydye.sfservice.model;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -22,6 +23,7 @@ public class LogicalEntity extends GenericEntity implements Serializable {
     private Integer id;
 
     @NotNull
+    @Length(min = 5, max = 255)
     @Column(name = "name")
     private String name;
 

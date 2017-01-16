@@ -38,7 +38,8 @@ project.ext {
     ]
     hibernateArtifacts = [
             'hibernate-core',
-            'hibernate-entitymanager'
+            'hibernate-entitymanager',
+            'hibernate-validator'
     ]
     limits = [
             'instruction': 0,

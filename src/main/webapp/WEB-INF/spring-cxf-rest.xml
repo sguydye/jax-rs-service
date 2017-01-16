@@ -38,6 +38,12 @@
         <jaxrs:serviceBeans>
             <ref bean="entityService"/>
         </jaxrs:serviceBeans>
+        <jaxrs:inInterceptors>
+            <ref bean="validationInInterceptor"/>
+        </jaxrs:inInterceptors>
+        <jaxrs:outInterceptors>
+            <ref bean="validationOutInterceptor" />
+        </jaxrs:outInterceptors>
         <jaxrs:extensionMappings>
             <entry key="json" value="application/json"/>
         </jaxrs:extensionMappings>
@@ -46,7 +52,22 @@
         </jaxrs:features>
         <jaxrs:providers>
             <ref bean="jsonProvider" />
+            <bean class="org.sguydye.sfservice.util.exception.mapper.ClientExceptionMapper"/>
+            <bean class="org.sguydye.sfservice.util.exception.mapper.ServerExceptionMapper"/>
+            <bean class="org.sguydye.sfservice.util.exception.mapper.HibernateExceptionMapper"/>
+         <!--   <bean class="org.sguydye.sfservice.util.exception.mapper.ValidationExceptionMapper" /> -->
         </jaxrs:providers>
     </jaxrs:server>
+
+    <bean id="exceptionMapper" class="org.apache.cxf.jaxrs.validation.ValidationExceptionMapper"/>
+    <bean id="validationProvider" class="org.apache.cxf.validation.BeanValidationProvider" />
+
+    <bean id="validationInInterceptor" class="org.apache.cxf.jaxrs.validation.JAXRSBeanValidationInInterceptor">
+        <property name="provider" ref="validationProvider" />
+    </bean>
+
+    <bean id="validationOutInterceptor" class="org.apache.cxf.jaxrs.validation.JAXRSBeanValidationOutInterceptor">
+        <property name="provider" ref="validationProvider" />
+    </bean>
 
 </beans>
