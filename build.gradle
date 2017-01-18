@@ -61,7 +61,9 @@ repositories {
     maven {
         url "https://plugins.gradle.org/m2/"
     }
-    mavenCentral()
+    mavenLocal()
+    //jcenter()
+   // mavenCentral()
 }
 
 dependencies {
@@ -78,7 +80,7 @@ dependencies {
     compile "org.hibernate:hibernate-validator:$hibernateValidatorVersion"
     compile "com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:2.8.5"
     compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.8.5"
- //   testCompile "org.springframework:spring-test:4.3.5.RELEASE"
+    testCompile "org.springframework:spring-test:$springVersion"
     testCompile "junit:junit:4.12"
     testCompile "org.hamcrest:hamcrest-core"
     testCompile "org.hamcrest:hamcrest-library:1.3"

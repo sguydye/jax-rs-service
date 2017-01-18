@@ -30,17 +30,6 @@ public class EntityServiceImpl implements EntityService {
 
     @Override
     public void postEntity(LogicalEntity entity) {
-
-        if (!CollectionUtils.isEmpty(entity.getFields())) {
-            entity.getFields().forEach(logicalField -> {
-                logicalField.setEntity(entity);
-            });
-        }
-        if (!CollectionUtils.isEmpty(entity.getConstraints())) {
-            entity.getConstraints().forEach(logicalConstraint -> {
-                logicalConstraint.setEntity(entity);
-            });
-        }
         entityDao.save(entity);
     }
 
