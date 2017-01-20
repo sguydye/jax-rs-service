@@ -5,9 +5,11 @@ buildscript {
         maven {
             url "https://plugins.gradle.org/m2/"
         }
+        jcenter()
     }
     dependencies {
         classpath "gradle.plugin.com.boxfuse.client:flyway-release:4.0.3"
+        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4.4.0"
     }
 }
 
@@ -26,8 +28,8 @@ project.ext {
     jacocoVersion = '0.7.8'
     cxfArtifacts = [
             'cxf-rt-transports-http',
-            'cxf-rt-frontend-jaxrs',
-            'cxf-rt-transports-local'
+            'cxf-rt-frontend-jaxrs'
+           // 'cxf-rt-transports-local'
          //   'cxf-rt-transports-http-jetty'
     ]
     springArtifacts = [
@@ -54,9 +56,9 @@ apply plugin: 'java'
 apply plugin: 'war'
 apply plugin: 'idea'
 apply plugin: 'jacoco'
-apply plugin: "org.flywaydb.flyway"
+apply plugin: 'org.flywaydb.flyway'
 apply plugin: 'jetty'
-
+apply plugin: 'com.jfrog.artifactory'
 repositories {
     maven {
         url "https://plugins.gradle.org/m2/"
@@ -80,6 +82,9 @@ dependencies {
     compile "org.hibernate:hibernate-validator:$hibernateValidatorVersion"
     compile "com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:2.8.5"
     compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.8.5"
+    testCompile "org.mockito:mockito-all:1.9.5"
+    testCompile 'org.apache.cxf:cxf-rt-rs-client:3.1.8'
+    testCompile "org.apache.cxf:cxf-rt-transports-local:$cxfVersion"
     testCompile "org.springframework:spring-test:$springVersion"
     testCompile "junit:junit:4.12"
     testCompile "org.hamcrest:hamcrest-core"
@@ -149,6 +154,15 @@ jacocoTestReport {
         }
     }
 }
+artifactory {
+    contextUrl = artifactoryContextUrl
+    publish {
+        repoKey = 'integration-libs'
+        username = artifactoryUser
+        password = artifactoryPassword
+    }
+}
+
 task createDB(type:SQLTask)
 check.dependsOn jacocoTestReport
 check.dependsOn flywayMigrate

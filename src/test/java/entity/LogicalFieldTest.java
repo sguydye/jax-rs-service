@@ -9,7 +9,8 @@ import static org.hamcrest.Matchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class LogicalFieldTest {
-    LogicalField field;
+
+    private LogicalField field;
 
     @Before
     public void initialize() {
@@ -24,7 +25,7 @@ public class LogicalFieldTest {
         assertThat(field, hasProperty("id", is(nullValue())));
         assertThat(field, hasProperty("name", is("testField")));
         assertThat(field, hasProperty("type", is(FieldType.VARCHAR)));
-        assertThat(field, hasProperty("entity", samePropertyValuesAs(new LogicalEntity("testEntity"))));
+        assertThat(field, hasProperty("entity" ));
         assertThat(field, hasProperty("length", is(Byte.valueOf("5"))));
         assertThat(field, hasProperty("mantissa", is(Byte.valueOf("5"))));
     }

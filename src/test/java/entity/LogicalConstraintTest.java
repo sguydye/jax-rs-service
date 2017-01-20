@@ -16,7 +16,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class LogicalConstraintTest {
 
-    LogicalConstraint constraint;
+    private LogicalConstraint constraint;
 
     @Before
     public void initialize(){
