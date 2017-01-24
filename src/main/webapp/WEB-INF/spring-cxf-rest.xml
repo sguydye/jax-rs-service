@@ -52,7 +52,6 @@
         </jaxrs:features>
         <jaxrs:providers>
             <ref bean="jsonProvider" />
-            <bean class="org.sguydye.sfservice.util.exception.mapper.ClientExceptionMapper"/>
             <bean class="org.sguydye.sfservice.util.exception.mapper.ServerExceptionMapper"/>
             <bean class="org.sguydye.sfservice.util.exception.mapper.HibernateExceptionMapper"/>
             <ref bean="validationExceptionMapper"/>

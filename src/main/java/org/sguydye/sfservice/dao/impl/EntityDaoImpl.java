@@ -40,7 +40,7 @@ public class EntityDaoImpl extends GenericDaoImpl<LogicalEntity, Integer> implem
     }
 
     @Override
-    public void save(LogicalEntity entity) {
+    public Integer save(LogicalEntity entity) {
         if(!CollectionUtils.isEmpty(entity.getConstraints())) {
             entity.getConstraints().forEach(logicalConstraint -> {
                 logicalConstraint.setEntity(entity);
@@ -51,6 +51,6 @@ public class EntityDaoImpl extends GenericDaoImpl<LogicalEntity, Integer> implem
                 logicalField.setEntity(entity);
             });
         }
-        super.save(entity);
+        return super.save(entity);
     }
 }

@@ -29,8 +29,8 @@ public class EntityServiceImpl implements EntityService {
     }
 
     @Override
-    public void postEntity(LogicalEntity entity) {
-        entityDao.save(entity);
+    public Integer postEntity(LogicalEntity entity) {
+        return entityDao.save(entity);
     }
 
     @Override

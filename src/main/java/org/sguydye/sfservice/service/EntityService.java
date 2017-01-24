@@ -23,7 +23,7 @@ public interface EntityService {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public void postEntity(@Valid LogicalEntity entity);
+    public Integer postEntity(@Valid LogicalEntity entity);
 
     @PUT
     @Path("/{id}")
