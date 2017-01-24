@@ -3,12 +3,16 @@ project.version '0.1.0'
 buildscript {
     repositories {
         maven {
-            url "https://plugins.gradle.org/m2/"
+            url 'http://localhost:8082/artifactory/plugins-release'
+            credentials {
+                username = "${artifactory_user}"
+                password = "${artifactory_password}"
+            }
         }
-        jcenter()
     }
     dependencies {
-        classpath "gradle.plugin.com.boxfuse.client:flyway-release:4.0.3"
+       // classpath "gradle.plugin.com.boxfuse.client:flyway-release:4.0.3"
+        classpath "org.flywaydb:flyway-gradle-plugin:4.0.3"
         classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4.4.0"
     }
 }
@@ -59,11 +63,13 @@ apply plugin: 'jacoco'
 apply plugin: 'org.flywaydb.flyway'
 apply plugin: 'jetty'
 apply plugin: 'com.jfrog.artifactory'
+
+
 repositories {
     maven {
         url "https://plugins.gradle.org/m2/"
     }
-    mavenLocal()
+    //mavenLocal()
     //jcenter()
    // mavenCentral()
 }
@@ -154,15 +160,28 @@ jacocoTestReport {
         }
     }
 }
+
 artifactory {
-    contextUrl = artifactoryContextUrl
+    contextUrl = "${artifactory_contextUrl}"   //The base Artifactory URL if not overridden by the publisher/resolver
     publish {
-        repoKey = 'integration-libs'
-        username = artifactoryUser
-        password = artifactoryPassword
+        repository {
+            repoKey = 'libs-release-local'
+            username = "${artifactory_user}"
+            password = "${artifactory_password}"
+            maven = true
+
+        }
+    }
+    resolve {
+        repository {
+            repoKey = 'libs-release'
+            username = "${artifactory_user}"
+            password = "${artifactory_password}"
+            maven = true
+
+        }
     }
 }
-
 task createDB(type:SQLTask)
 check.dependsOn jacocoTestReport
 check.dependsOn flywayMigrate
