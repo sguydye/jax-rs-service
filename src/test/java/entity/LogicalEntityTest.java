@@ -58,5 +58,6 @@ public class LogicalEntityTest {
         List<LogicalConstraint> constraintList = new ArrayList<>();
         entity.setConstraints(constraintList);
         assertThat(entity.getConstraints(), is(constraintList));
+        assertThat(entity.toString(), containsString(entity.getName()));
     }
 }

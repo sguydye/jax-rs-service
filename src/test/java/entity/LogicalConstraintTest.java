@@ -46,5 +46,6 @@ public class LogicalConstraintTest {
         Set<LogicalField> fields = new HashSet<>();
         constraint.setFields(fields);
         assertThat(constraint.getFields(), is(fields));
+        assertThat(constraint.toString(), containsString(constraint.getType().toString()));
     }
 }

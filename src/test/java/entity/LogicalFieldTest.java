@@ -43,5 +43,6 @@ public class LogicalFieldTest {
         LogicalEntity testEntity = new LogicalEntity();
         field.setEntity(testEntity);
         assertThat(field.getEntity(), is(testEntity));
+        assertThat(field.toString(), containsString(field.getName()));
     }
 }
