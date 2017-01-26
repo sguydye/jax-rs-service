@@ -28,7 +28,7 @@ public interface EntityService {
     @PUT
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response updateEntity(@PathParam("id") Integer id, @Valid LogicalEntity entity);
+    public LogicalEntity updateEntity(@PathParam("id") Integer id, @Valid LogicalEntity entity);
 
     @DELETE
     @Path("/{id}")

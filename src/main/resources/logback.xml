@@ -8,7 +8,7 @@
         </encoder>
     </appender>
 
-    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <appender name="PARTIALFILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${catalina_home}/logs/service/jax-rs-service.log</file>
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <Pattern>%d{yyyy-MM-dd_HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</Pattern>
@@ -25,8 +25,8 @@
         </triggeringPolicy>
     </appender>
 
-    <appender name="TRACEFILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${catalina_home}/logs/service/trace/jax-rs-service.log</file>
+    <appender name="FULLFILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${catalina_home}/logs/service/debug/jax-rs-service.log</file>
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <Pattern>%d{yyyy-MM-dd_HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</Pattern>
         </encoder>
@@ -43,11 +43,11 @@
     </appender>
 
     <logger name="org.sguydye.sfservice" level="TRACE" >
-        <appender-ref ref="FILE"/>
+        <appender-ref ref="PARTIALFILE"/>
     </logger>
     <!-- By default, the level of the root level is set to DEBUG -->
-    <root level="TRACE">
+    <root level="DEBUG">
         <appender-ref ref="STDOUT" />
-        <appender-ref ref="TRACEFILE" />
+        <appender-ref ref="FULLFILE" />
     </root>
 </configuration>

@@ -52,13 +52,15 @@
         </jaxrs:features>
         <jaxrs:providers>
             <ref bean="jsonProvider" />
-            <bean class="org.sguydye.sfservice.util.exception.mapper.ServerExceptionMapper"/>
             <bean class="org.sguydye.sfservice.util.exception.mapper.HibernateExceptionMapper"/>
             <ref bean="validationExceptionMapper"/>
+            <bean class="org.sguydye.sfservice.util.filters.CustomEntityResponseFilter" />
         </jaxrs:providers>
     </jaxrs:server>
 
-    <bean id="validationExceptionMapper" class="org.apache.cxf.jaxrs.validation.ValidationExceptionMapper"/>
+    <bean id="validationExceptionMapper" class="org.sguydye.sfservice.util.exception.mapper.ValidationExceptionMapper">
+        <property name="addMessageToResponse" value="true"/>
+    </bean>
     <bean id="validationProvider" class="org.apache.cxf.validation.BeanValidationProvider" />
 
     <bean id="validationInInterceptor" class="org.apache.cxf.jaxrs.validation.JAXRSBeanValidationInInterceptor">

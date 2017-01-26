@@ -1,6 +1,5 @@
 package org.sguydye.sfservice.service;
 
-import org.apache.cxf.common.util.CollectionUtils;
 import org.sguydye.sfservice.dao.EntityDao;
 import org.sguydye.sfservice.model.LogicalEntity;
 import org.slf4j.Logger;
@@ -9,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.ws.rs.core.Response;
 import java.util.List;
 
 @Transactional
@@ -24,7 +22,6 @@ public class EntityServiceImpl implements EntityService {
     @Override
     public LogicalEntity getEntity(Integer id) {
         LogicalEntity entity = entityDao.find(id);
-        LOG.debug("Entity with id: " + id + " was found: " + entity.getName());
         return entity;
     }
 
@@ -39,10 +36,10 @@ public class EntityServiceImpl implements EntityService {
     }
 
     @Override
-    public Response updateEntity(Integer id, LogicalEntity entity) {
+    public LogicalEntity updateEntity(Integer id, LogicalEntity entity) {
         entity.setId(id);
         entityDao.update(entity);
-        return Response.status(200).entity(entityDao.find(id)).build();
+        return entityDao.find(id);
     }
 
     @Override

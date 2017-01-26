@@ -30,6 +30,7 @@ project.ext {
     hibernateValidatorVersion = "5.3.4.Final"
     MSSQLDriverVersion = "6.1.0.jre8"
     jacocoVersion = '0.7.8'
+    tomcatHome = "$System.env.CATALINA_HOME"
     cxfArtifacts = [
             'cxf-rt-transports-http',
             'cxf-rt-frontend-jaxrs'
@@ -69,6 +70,7 @@ repositories {
     maven {
         url "https://plugins.gradle.org/m2/"
     }
+
     //mavenLocal()
     //jcenter()
    // mavenCentral()
@@ -187,6 +189,11 @@ artifactory {
     }
 }
 task createDB(type:SQLTask)
+task deployToTomcat(type : Copy) {
+    from war.archivePath
+    into "${tomcatHome}/webapps"
+}
+deployToTomcat.dependsOn war
 check.dependsOn jacocoTestReport
 check.dependsOn flywayMigrate
-
+build.dependsOn deployToTomcat
