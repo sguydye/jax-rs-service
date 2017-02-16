@@ -12,7 +12,8 @@
 hs_err_pid*
 .gradle
 .idea
-build
+build/*
+!build/docker
 Process
 gradle.properties
 buildSrc/.gradle

@@ -55,6 +55,7 @@
             <bean class="org.sguydye.sfservice.util.exception.mapper.HibernateExceptionMapper"/>
             <ref bean="validationExceptionMapper"/>
             <bean class="org.sguydye.sfservice.util.filters.CustomEntityResponseFilter" />
+            <bean class="org.sguydye.sfservice.util.exception.mapper.EntityNotFoundExceptionMapper"/>
         </jaxrs:providers>
     </jaxrs:server>
 

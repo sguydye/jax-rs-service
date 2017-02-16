@@ -2,6 +2,7 @@ package org.sguydye.sfservice.service;
 
 import org.sguydye.sfservice.dao.EntityDao;
 import org.sguydye.sfservice.model.LogicalEntity;
+import org.sguydye.sfservice.util.exception.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ public class EntityServiceImpl implements EntityService {
 
     @Override
     public LogicalEntity getEntity(Integer id) {
-        LogicalEntity entity = entityDao.find(id);
+        LogicalEntity entity = entityDao.find(id).orElseThrow(EntityNotFoundException::new);
         return entity;
     }
 
@@ -39,12 +40,12 @@ public class EntityServiceImpl implements EntityService {
     public LogicalEntity updateEntity(Integer id, LogicalEntity entity) {
         entity.setId(id);
         entityDao.update(entity);
-        return entityDao.find(id);
+        return entityDao.find(id).orElseThrow(EntityNotFoundException::new);
     }
 
     @Override
     public void deleteEntity(Integer id) {
-        LogicalEntity entity = entityDao.find(id);
+        LogicalEntity entity = entityDao.find(id).orElseThrow(EntityNotFoundException::new);
         entityDao.delete(entity);
     }
 

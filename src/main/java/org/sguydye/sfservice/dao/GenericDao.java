@@ -1,6 +1,7 @@
 package org.sguydye.sfservice.dao;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface GenericDao<E, K> {
     public K save(E entity);
@@ -9,7 +10,7 @@ public interface GenericDao<E, K> {
 
     public void delete(E entity);
 
-    public E find(K key);
+    public Optional<E> find(K key);
 
     public List<E> getAll();
 

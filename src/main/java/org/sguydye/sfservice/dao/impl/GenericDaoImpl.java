@@ -12,6 +12,7 @@ import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public abstract class GenericDaoImpl<E, K extends Serializable> implements GenericDao<E, K> {
@@ -44,8 +45,8 @@ public abstract class GenericDaoImpl<E, K extends Serializable> implements Gener
     }
 
     @Override
-    public E find(K key) {
-        return (E) currentSession().get(daoType, key);
+    public Optional<E> find(K key) {
+        return Optional.ofNullable(currentSession().get(daoType, key)) ;
     }
 
     @Override
