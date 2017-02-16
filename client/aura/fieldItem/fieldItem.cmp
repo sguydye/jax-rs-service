@@ -1,0 +1,35 @@
+<aura:component >
+    <aura:attribute name="newField" type="Object" />
+    <aura:registerEvent name="removeField" type="c:removeField" />
+	<tr>
+	    <td data-label="Name">
+	        <div class="slds-truncate" title="{!v.newField.name}">{!v.newField.name}</div>
+        </td>
+        
+        <td data-label="Field Type">
+        	<div class="slds-truncate" title="{!v.newField.type}">{!v.newField.type}</div>
+        </td>
+        
+        <td data-label="Length">
+        	<div class="slds-truncate" title="{!v.newField.length}">{!v.newField.length}</div>
+        </td>
+        
+        <td data-label="Mantissa">
+        	<div class="slds-truncate" title="{!v.newField.mantissa}">{!v.newField.mantissa}</div>
+        </td>
+        
+        <td data-label="Constraints">
+        	<div class="slds-truncate" title="Constraints">
+            	<aura:iteration items="{!v.newField.constraints}" var="constraint">
+            	    {!constraint.type} <br/>
+                </aura:iteration>                            
+            </div>
+        </td>
+        
+        <td data-label="Remove">
+        	<div class="slds-truncate" title="Remove">
+            	<lightning:buttonIcon iconName="utility:close" variant="bare" onclick="{!c.handleRemove}" alternativeText="Remove field." />
+            </div>
+        </td>                        
+   </tr>
+</aura:component>

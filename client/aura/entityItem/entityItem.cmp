@@ -1,0 +1,74 @@
+<aura:component >
+    <aura:attribute name="entity" type="Object" />
+    <aura:handler name="init" value="{!this}" action="{!c.initialize}" />
+    <aura:registerEvent name="deleteEntity" type="c:deleteEntity" />
+    <aura:registerEvent name="updateFields" type="c:updateEntityFields" />
+    
+    <tr class="slds-hint-parent">
+        <td role="gridcell" class="slds-cell-edit slds-cell-error">
+            <button id="error-01" class="slds-button slds-button--icon slds-button--icon-error slds-m-horizontal--xxx-small slds-hidden" tabindex="-1" aria-hidden="true">
+        	    <span class="slds-assistive-text">Item 1 has errors</span>
+                <lightning:icon iconName="utility:warning" size="x-small" alternativeText=""/>
+            </button>
+            <span class="slds-row-number slds-text-body--small slds-text-color--weak"></span>
+        </td>
+                    
+        <td role="gridcell" class="slds-cell-edit">
+        	<label class="slds-checkbox">
+        		<input type="checkbox" name="options" tabindex="-1" id="checkbox-01" />
+        		<span class="slds-checkbox--faux"></span>
+        		<span class="slds-assistive-text">Select item</span>
+            </label>
+        </td>
+        
+        <td role="gridcell" class="slds-cell-edit">
+        	<span class="slds-grid slds-grid--align-spread">
+            	<span class="slds-truncate" title="{!v.entity.name}">{!v.entity.name}</span>
+            <lightning:buttonIcon iconName="utility:edit" class="slds-button--icon slds-cell-edit__button slds-m-left--x-small" tabindex="-1" variant="bare" onclick="{! c.toggleEditNameInput }" alternativeText="Edit Name" />
+            </span>                        
+            <div aura:id="editNameInput" class="slds-popover slds-popover--edit toggle" role="dialog" style="position:absolute;top:0px;left:0.0625rem;" >
+            	<span id="form-start" tabindex="0"></span>
+            	<div class="slds-popover__body">
+                	<div class="slds-form-element slds-grid">
+                        <div class="slds-form-element__control slds-grow">
+                             <ui:inputText class="slds-input" required="true" aura:id="entityName" value="{!v.entity.name}" blur="c.toggleEditNameInput" />
+                        </div>
+                    </div>
+                    <span id="form-end" tabindex="0"></span>
+                 </div>
+            </div>
+        </td>
+        
+        <td role="gridcell" class="slds-cell-edit">
+        	<span class="slds-grid slds-grid--align-spread">
+            	<span class="slds-truncate" title="{!v.entity.dbName}">{!v.entity.dbName}</span>
+            <lightning:buttonIcon iconName="utility:lock" class="slds-button--icon slds-cell-edit__button slds-m-left--x-small" tabindex="-1" variant="bare" onclick="" alternativeText="Field is not editable" />
+            </span>
+        </td>
+        
+        <td role="gridcell" class="slds-cell-edit">
+        	<span class="slds-grid slds-grid--align-spread">
+            	<span class="slds-truncate" title="{!v.entity.createdDate}">{!v.entity.createdDate}</span>
+            <lightning:buttonIcon iconName="utility:lock" class="slds-button--icon slds-cell-edit__button slds-m-left--x-small" tabindex="-1" variant="bare" onclick="" alternativeText="Field is not editable" />
+            </span>
+        </td>
+        
+        <td role="gridcell" class="slds-cell-edit">
+        	<span class="slds-grid slds-grid--align-spread">
+            	<span class="slds-truncate" title="{!v.entity.lastModified}">{!v.entity.lastModifiedDate}</span>
+            <lightning:buttonIcon iconName="utility:lock" class="slds-button--icon slds-cell-edit__button slds-m-left--x-small" tabindex="-1" variant="bare" onclick="" alternativeText="Field is not editable" />
+            </span>     
+        </td>
+        
+        <td role="gridcell" class="slds-cell-edit">
+        	<div class="slds-p-right--medium">
+            	<lightning:buttonMenu aura:id="menu" alternativeText="More options" iconName="utility:settings" onselect="{!c.handleEdit }">
+                	<lightning:menuItem label="Edit Fields" iconName="utility:edit" value="editfields" title="edit entity, its fields and constraints" />
+                    <lightning:menuItem label="Delete" iconName="utility:delete" value="delete" title="Permanently delete entity" />                    
+            	</lightning:buttonMenu>
+            </div>
+        </td>
+        
+        
+    </tr>
+</aura:component>

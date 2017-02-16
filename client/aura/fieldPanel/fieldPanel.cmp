@@ -1,0 +1,22 @@
+<aura:component >
+	<aura:attribute name="parentEntity" type="Object" />
+	<aura:attribute name="display" type="Boolean" default="false" />
+	<aura:registerEvent name="panelDestroyed" type="c:componentDestruction" />
+    <aura:registerEvent name="entityUpdated" type="c:entityUpdatedEvent" />
+    <aura:handler name="change" value="{!v.parentEntity}" action="{!c.onChange}"/> 
+    <aura:handler event="c:addFieldToPanel" action="{!c.addField}" />
+    <aura:handler name="deleteFieldFromPanel" event="c:removeField" action="{!c.deleteField}" />
+    <aura:handler name="itemChanged" event="c:panelItemChanged" action="{!c.onChange}" />
+    
+    <div aura:id="root" class="slds-box slds-box--x-small  slds-m-around--x-small slds-theme--shade displayed" >
+        <lightning:buttonIcon iconName="utility:clear" size="large" class="panel-close" variant="bare" onclick="{! c.handleClose }" alternativeText="Close panel." />
+    	<c:fieldListPanel aura:id="fieldList" parentEntity="{!v.parentEntity}" />
+        <lightning:button label="Save Changes" aura:id="saveButton" iconName="utility:database" name="SaveChanges" class="entity-form" onclick="{!c.handleSaveAll}" />
+        <lightning:button label="Add new" aura:id="addButton" iconName="utility:add" name="addNew" class="entity-form" onclick="{!c.toggleFieldForm}" />
+    	<div aura:id="formWrapper" class="slds-hide">
+            <c:panelFieldForm aura:id="fieldForm" />
+        </div>
+        <lightning:button label="Cancel" aura:id="cancelAdd" iconName="utility:back" name="cancel" class="slds-hide entity-form" onclick="{!c.toggleFieldForm}" />
+        <lightning:spinner aura:id="spinner" variant="brand" size="large" class="slds-hide" alternativeText="Sending Request" />
+    </div>
+</aura:component>

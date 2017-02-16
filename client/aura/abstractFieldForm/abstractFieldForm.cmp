@@ -1,0 +1,55 @@
+<aura:component extensible="true" abstract="true">
+	<aura:attribute name="field" type="Object" /> 
+    <aura:attribute name="fieldTypes" type="String[]" default="BOOLEAN,DECIMAL,STRING,MONEY" />
+    <aura:attribute name="fieldContraints" type="String[]" default="NOTNULL,UNIQUE" />
+    <aura:attribute name="disabledFieldsMap" type="Object" />
+ 	<aura:handler name="init" value="{!this}" action="{!c.initialize}" />    
+    
+	<form class="slds-form--inline">
+        <div class="slds-form-element field-form-element">
+        	<label class="slds-form-element__label" for="fieldName">
+                 <abbr class="slds-required" title="required">*</abbr> Field Name</label>
+            <div class="slds-form-element__control">
+            	<ui:inputText aura:id="fieldname" class="slds-input" value="{!v.field.name}" />
+            </div>                
+        </div>     
+        
+        <div class="slds-form-element field-form-element">
+  			<label class="slds-form-element__label" for="fieldType">
+    			<abbr class="slds-required" title="required">*</abbr> Field Type</label>
+  			<div class="slds-form-element__control">
+    			<div class="slds-select_container">
+      				<ui:inputSelect aura:id="fieldTypes" required="true" class="slds-select" change="{!c.onFieldTypeChange}">
+                        <aura:iteration items="{!v.fieldTypes}" var="type">
+                        	<ui:inputSelectOption text="{!type}" label="{!type}"></ui:inputSelectOption>
+                        </aura:iteration>
+                    </ui:inputSelect>
+    			</div>
+  			</div>
+		</div>
+        
+        <div class="slds-form-element field-form-element">
+        	<label class="slds-form-element__label" for="fieldlength">Length</label>
+       		<div class="slds-form-element__control">
+            	<ui:inputNumber aura:id="fieldlength" class="slds-input" disabled="true" value="{!v.field.length}" placeholder="Max field length" />
+          	</div>
+		</div>
+        
+        <div class="slds-form-element field-form-element">
+        	<label class="slds-form-element__label" for="fieldmantissa">Mantissa</label>
+       		<div class="slds-form-element__control">
+            	<ui:inputNumber disabled="true" aura:id="fieldmantissa" class="slds-input" placeholder="Digits after dot" value="{!v.field.mantissa}" />
+          	</div>
+		</div>        
+        <div class="slds-form-element field-form-element">
+           <aura:iteration items="{!v.fieldContraints}" var="constraint">
+               <lightning:input type="checkbox" label="{!constraint}" 
+                name="{!constraint}" value="{!constraint}" aura:id="constraints"/>
+           </aura:iteration>           
+        </div>
+        
+    	{!v.body}     
+    </form>
+    
+    
+</aura:component>

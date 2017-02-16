@@ -1,0 +1,77 @@
+<aura:component >
+    <aura:attribute name="field" type="Object"/>
+    <aura:attribute name="fieldTypes" type="String[]" default="BOOLEAN,DECIMAL,STRING,MONEY" />
+    <aura:attribute name="fieldContraints" type="String[]" default="NOTNULL,UNIQUE" />
+    <aura:attribute name="disabledFieldsMap" type="Object" />
+    <aura:attribute name="entityName" type="String" default="Entity Name" />
+    <aura:registerEvent name="deleteFieldFromPanel" type="c:removeField" />
+    <aura:registerEvent name="itemChanged" type="c:panelItemChanged" />
+    <aura:handler name="init" value="{!this}" action="{!c.initialize}" />
+    <aura:handler name="change" value="{!v.field}" action="{!c.sendChangeEvent}"/> 
+    
+	<div class="slds-panel slds-grid slds-grid--vertical slds-nowrap">
+      <div class="slds-form--stacked slds-grow slds-scrollable--y">
+        <div class="slds-panel__section slds-has-divider--bottom">
+          <div class="slds-media">            
+            <div class="slds-media__body">
+              <p class="slds-truncate slds-text-heading--small" title="Follow up on &#x27;15 contact"><a href="javascript:void(0);">{!v.field.name}</a></p>
+              <p class="slds-truncate slds-text-body--small" title="Jun 18">{!v.entityName}</p>
+              <div class="slds-button-group slds-m-top--small" role="group">                
+                <button class="slds-button slds-button--neutral slds-grow" onclick="{!c.handleEdit}" >Edit</button>
+                <button class="slds-button slds-button--destructive slds-grow" onclick="{!c.handleDelete}">Delete</button>                
+                <lightning:buttonIcon class="slds-button slds-button--icon-border-filled" iconName="utility:down" aura:id="detailsButton" alternativeText="Details" onclick="{!c.toggleDetails}"/>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="slds-panel__section hide-details non-editable" aura:id="panelDetails">
+          <h3 class="slds-text-heading--small slds-m-bottom--medium">Field Information</h3>
+          <div class="slds-form-element slds-hint-parent slds-has-divider--bottom">
+            <span class="slds-form-element__label">Name</span>
+            <div class="slds-form-element__control">
+              <span class="slds-form-element__static static-data">{!v.field.name}</span>
+              <ui:inputText class="slds-input form-data" required="true" aura:id="fieldName" value="{!v.field.name}"/>
+            </div>
+          </div>
+          <div class="slds-form-element slds-hint-parent slds-has-divider--bottom">
+            <span class="slds-form-element__label">Field Type</span>
+            <div class="slds-form-element__control">
+              <span class="slds-form-element__static static-data">{!v.field.type}</span>
+              <div class="slds-select_container form-data">
+      			<ui:inputSelect aura:id="fieldTypes" required="true" class="slds-select" change="{!c.onFieldTypeChange}">
+                	<aura:iteration items="{!v.fieldTypes}" var="type">
+                    	<ui:inputSelectOption text="{!type}" label="{!type}"></ui:inputSelectOption>
+                    </aura:iteration>
+                </ui:inputSelect>
+    		  </div>
+            </div>
+          </div>
+          <div class="slds-form-element slds-hint-parent slds-has-divider--bottom">
+            <span class="slds-form-element__label">Length</span>
+            <div class="slds-form-element__control">
+              <span class="slds-form-element__static static-data">{!v.field.length}</span>
+                <ui:inputNumber class="slds-input form-data" required="true" aura:id="fieldlength" value="{!v.field.length}"/>
+            </div>
+          </div>
+          <div class="slds-form-element slds-hint-parent slds-has-divider--bottom">
+            <span class="slds-form-element__label">Mantissa</span>
+            <div class="slds-form-element__control">
+              <span class="slds-form-element__static static-data">{!v.field.mantissa}</span>
+              <ui:inputNumber class="slds-input form-data" required="true" aura:id="fieldmantissa" value="{!v.field.mantissa}"/>
+            </div>
+          </div>            
+          <div class="slds-form-element slds-hint-parent slds-has-divider--bottom">
+            <span class="slds-form-element__label">Constraints</span>
+            <div class="slds-form-element__control">              
+            	<div class="slds-form-element">
+                   <aura:iteration items="{!v.fieldContraints}" var="constraint">
+                       <lightning:input type="checkbox" label="{!constraint}"  
+                        name="{!constraint}" value="{!constraint}" aura:id="constraints" onchange="{!c.onConstraintChange}"/>
+                   </aura:iteration>           
+        	    </div>    
+            </div>
+          </div>
+        </div>
+      </div>
+	</div>
+</aura:component>

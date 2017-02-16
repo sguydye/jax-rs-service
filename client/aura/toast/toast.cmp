@@ -1,0 +1,17 @@
+<aura:component >
+    <aura:attribute name="message" type="String" default="You text here" />
+    <aura:attribute name="type" type="String" description="type of toast - success, error" default="success" />
+    <aura:handler name="init" value="{!this}" action="{!c.initialize}" />
+    
+    <div class="slds-notify_container">
+      <div aura:id="toast-wrap" class="slds-notify slds-notify--toast" role="alert">        
+		<div class="slds-notify__content slds-grid">            
+          <lightning:icon aura:id="icon" variant="bare" iconName="utility:warning" class="slds-m-right--small slds-col slds-no-flex" size="small" alternativeText="Warning"/>
+          <div class="slds-col slds-align-middle">            
+            <h2 class="slds-text-heading--small" style="text-align:center;">{!v.message}</h2>
+          </div>
+        </div>
+      </div>
+	</div>
+	
+</aura:component>

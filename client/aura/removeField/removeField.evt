@@ -1,0 +1,3 @@
+<aura:event type="COMPONENT" description="Signal field list/panel to remove field from list/panel" >
+    <aura:attribute name="field" type="Object" />
+</aura:event>

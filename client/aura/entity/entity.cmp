@@ -1,0 +1,36 @@
+<aura:component >
+    <aura:attribute name="entities" type="Object[]" />
+    <aura:attribute name="showFieldForm" type="Boolean" default="false" />
+    <aura:attribute name="deletedEntityId" type="Integer" />
+    <aura:handler name="init" value="{!this}" action="{!c.initialize}" />
+    <aura:handler name="showFieldForm" event="c:showFieldForm" action="{!c.toggleFieldForm}" />
+    <aura:handler name="createEntity" event="c:createEntity" action="{!c.createEntity}" />
+    <aura:handler name="updateFields" event="c:updateEntityFields" action="{!c.showFieldPanel}" />
+    <aura:handler name="deleteEntity" event="c:deleteEntity" action="{!c.handleDeleteEntity}" />
+    <aura:handler name="panelDestroyed" event="c:componentDestruction" action="{!c.handleDestroyPanel}" />
+    <aura:handler name="entityUpdated" event="c:entityUpdatedEvent" action="{!c.handleEntityUpdated}" />
+    <c:header />
+    
+     <div class="slds-grid">
+                  
+        <div class="slds-col slds-size--2-of-3" id="entityList">
+            <div class="slds-box slds-box--x-small  slds-m-around--x-small slds-theme--shade">
+                <lightning:buttonIcon iconName="utility:rotate" variant="bare" size="large"  onclick="{!c.refreshEntities}" alternativeText="Refresh" />
+                <c:entityList aura:id="entityList" entities="{!v.entities}" />
+            </div>            
+            <div class="slds-box slds-box--x-small  slds-m-around--x-small slds-theme--shade">
+                <c:entityForm aura:id="entityForm" />
+                <aura:if isTrue="{!v.showFieldForm}" >
+                    <c:fieldList aura:id="fieldList" /> 
+               		<c:fieldForm aura:id="fieldForm" />  
+                </aura:if>
+            </div>              
+        </div>
+         
+        <div class="slds-col slds-size--1-of-3 sidepanel">
+          {!v.body}                 	
+        </div>
+		<lightning:spinner aura:id="spinner" variant="brand" size="large" class="slds-hide" alternativeText="Sending Request" />                  
+    </div>
+    
+</aura:component>

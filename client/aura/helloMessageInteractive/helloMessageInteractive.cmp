@@ -1,0 +1,13 @@
+<aura:component >
+    <aura:attribute name="message" type="String" />
+    
+    <p>Message of the day <ui:outputText value="{!v.message}"/></p>
+    
+    <div>
+        <ui:button label="Fuck you"
+                   press="{!c.handleClick}" />
+        
+        <ui:button label="No, fuck yourself!"
+                   press="{!c.handleClick}" />
+    </div>
+</aura:component>

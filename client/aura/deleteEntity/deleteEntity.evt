@@ -1,0 +1,3 @@
+<aura:event type="COMPONENT" description="Is sent from entityItem component with id parameter of entity to be removed">
+    <aura:attribute name="id" type="Integer" required="true"/>
+</aura:event>

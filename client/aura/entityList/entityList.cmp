@@ -1,0 +1,66 @@
+<aura:component >
+    <aura:attribute name="entities" type="Object[]" />
+    <aura:attribute name="entityFieldNames" type="String[]" default="Entity Name,Database Name,Created,Last Modified" />
+    
+    <div class="slds-table--edit_container slds-is-relative">
+        <table class="slds-table slds-table--edit slds-table--bordered slds-table--fixed-layout slds-no-cell-focus" role="grid" style="width:76rem;">
+            <thead>
+                <tr class="slds-line-height--reset">
+                    <th scope="col" style="width:3.75rem;">
+                          <div class="slds-th__action">
+                            <span class="slds-assistive-text">Errors</span>
+                          </div>
+        			</th>
+                    <th scope="col" style="width:2rem;">
+                          <div class="slds-th__action slds-th__action--form">
+                            <label class="slds-checkbox">
+                              <input type="checkbox" name="options" tabindex="-1" />
+                              <span class="slds-checkbox--faux"></span>
+                              <span class="slds-assistive-text">Select All</span>
+                            </label>
+                          </div>
+        			</th>
+                    <aura:iteration items="{!v.entityFieldNames}" var="heading" >
+                    	<th style="width:8.75rem;" class="slds-is-sortable slds-is-resizable slds-text-title--caps" scope="col">
+                          <a href="javascript:void(0);" class="slds-th__action slds-text-link--reset" tabindex="-1">
+                            <span class="slds-assistive-text">Sort </span>
+                            <span class="slds-truncate" title="Name">{!heading}</span>
+                            <div class="slds-icon_container">
+                                <lightning:icon iconName="utility:arrowdown" size="x-small" alternativeText=""/>
+                            </div>
+                            <span class="slds-assistive-text" aria-live="assertive" aria-atomic="true"></span>
+                          </a>
+                          <div class="slds-resizable">
+                            <label for="cell-resize-handle-560" class="slds-assistive-text">{!heading} column width</label>
+                            <input type="range" min="20" max="1000" class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-560" tabindex="-1" />
+                            <span class="slds-resizable__handle">
+                              <span class="slds-resizable__divider"></span>
+                            </span>
+                          </div>
+        				</th>
+                    </aura:iteration>
+                    
+                        <th style="width:8.75rem;" class="slds-is-sortable slds-is-resizable slds-text-title--caps" scope="col">
+                          <a href="javascript:void(0);" class="slds-th__action slds-text-link--reset" tabindex="-1">
+                            <span class="slds-truncate" title="Name">Settings</span>                            
+                          </a>
+                          <div class="slds-resizable">
+                            <label for="cell-resize-handle-560" class="slds-assistive-text">Settings column width</label>
+                            <input type="range" min="20" max="1000" class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-560" tabindex="-1" />
+                            <span class="slds-resizable__handle">
+                              <span class="slds-resizable__divider"></span>
+                            </span>
+                          </div>
+        				</th>
+                </tr>
+            </thead>
+            <tbody>
+                <aura:iteration items="{!v.entities}" var="entity">
+                  <c:entityItem entity="{!entity}" />
+    		  	</aura:iteration>            
+            </tbody>
+        </table>
+    </div>
+    {!v.body}   
+    
+</aura:component>

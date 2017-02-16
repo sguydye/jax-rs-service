@@ -1,0 +1,6 @@
+<aura:component >
+    <aura:attribute name="parentEntity" type="Object" />        
+    <aura:iteration items="{!v.parentEntity.fields}" var="field" indexVar="iii">
+    	<c:fieldItemPanel field="{!field}" entityName="{!v.parentEntity ? v.parentEntity.name : Unknown }" />        
+    </aura:iteration>
+</aura:component>

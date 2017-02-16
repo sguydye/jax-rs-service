@@ -1,0 +1,1 @@
+<aura:event type="COMPONENT" description="notification from panel item cmp to panel cmp about fieild changes to highlight save button " />

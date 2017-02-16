@@ -1,0 +1,2 @@
+<aura:event type="COMPONENT" description="Event from entity form to entity central component signaling to gather data from entity and field forms and persist entity">
+</aura:event>

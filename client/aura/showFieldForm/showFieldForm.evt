@@ -1,0 +1,3 @@
+<aura:event type="COMPONENT" description="Display new field creation form when user click ADD FIELDS" >
+    <aura:attribute name="show" type="Boolean" default="false"/>
+</aura:event>

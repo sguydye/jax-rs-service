@@ -1,0 +1,10 @@
+<aura:component >
+		<div class="slds-page-header" role="banner">
+    	<div class="slds-grid">
+            <div class="slds-col">
+                <p class="slsds-text-heading-label">Custom Entities</p>
+                <h1 class="slds-text-heading-medium">Create new entity</h1>
+            </div>
+        </div>
+    </div>
+</aura:component>

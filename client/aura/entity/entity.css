@@ -1,0 +1,25 @@
+.THIS {
+}
+.THIS .entity-form {
+    margin-top : 1em;
+    margin-bottom : 1em;
+}
+
+.THIS .sidepanel .field-form-element .slds-form-element__label {
+    width:7em;
+}
+
+.THIS .field-form-element {    
+   	padding-top: 0.5em;    
+}
+
+.THIS .field-form-element.confirm-button {
+    display : block;
+}
+
+.THIS .panel-close {
+	float : right;
+}
+.THIS .hidden {
+    display:none;
+}

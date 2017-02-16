@@ -1,0 +1,44 @@
+<aura:component >
+    <aura:attribute name="newFields" type="Object[]" /> 
+    <aura:attribute name="newFieldd" type="Object" />
+    <aura:handler name="init" value="{!this}" action="{!c.initialize}" />
+    <aura:handler event="c:addNewField" action="{!c.addField}" />
+    <aura:handler name="removeField" event="c:removeField" action="{!c.handleRemove}" />    
+    <table class="slds-table slds-table--bordered slds-table--cell-buffer">
+        <thead>
+            <tr class="slds-text-title--caps">
+                <th scope="col">
+        			<div class="slds-truncate" title="Name">Field Name</div>
+      			</th>
+                
+                <th scope="col">
+        			<div class="slds-truncate" title="Field Type">Field Type</div>
+      			</th>
+                
+                <th scope="col">
+        			<div class="slds-truncate" title="Length">Length</div>
+      			</th>
+                
+                <th scope="col">
+        			<div class="slds-truncate" title="Mantissa">Mantissa</div>
+      			</th>
+                
+                <th scope="col">
+        			<div class="slds-truncate" title="Constraints">Constraints</div>
+      			</th>
+                
+                <th scope="col">
+        			<div class="slds-truncate" title="Remove">Remove</div>
+      			</th>
+            </tr>
+        </thead>
+ 
+        <tbody>
+              <aura:iteration items="{!v.newFields}" var="newField">
+                  <c:fieldItem newField="{!newField}" />
+    		  </aura:iteration>
+        </tbody>        
+        
+    </table>    
+
+</aura:component>

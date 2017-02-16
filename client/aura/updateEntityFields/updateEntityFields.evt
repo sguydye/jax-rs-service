@@ -1,0 +1,3 @@
+<aura:event type="COMPONENT" description="Fired from entityItem component to root entity component, which then displays editable FieldListPanel. Param - entity with Fields" >
+    <aura:attribute name="entity" type="Object" />
+</aura:event>

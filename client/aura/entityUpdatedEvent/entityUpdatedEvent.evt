@@ -1,0 +1,1 @@
+<aura:event type="COMPONENT" description="Notification from fieldPanel about successful entity update request" />

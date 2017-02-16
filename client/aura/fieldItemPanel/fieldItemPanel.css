@@ -1,0 +1,13 @@
+.THIS .hide-details {
+    display:none;
+}
+
+.THIS .static-data {
+    display:none;
+}
+.THIS .non-editable .form-data {
+    display:none;
+}
+.THIS .non-editable .static-data {
+    display:block;
+}

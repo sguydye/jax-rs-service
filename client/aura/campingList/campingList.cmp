@@ -1,0 +1,16 @@
+<aura:component controller="CampingListController">
+
+    <aura:attribute name="items" type="Camping_Item__c[]" />
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}" /> 
+	<aura:handler name="addItem" event="c:addItemEvent" action="{!c.handleAddItem}" />
+    
+    <c:campingListForm />
+
+    <div id="list" class="row">
+                <aura:iteration items="{!v.items}" var="item">
+                    <c:campingListItem item="{!item}"/>
+        		</aura:iteration>
+    </div>
+    
+    
+</aura:component>

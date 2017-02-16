@@ -1,0 +1,27 @@
+<aura:component >
+    <aura:attribute name="header" type="String" />
+    <aura:attribute name="message" type="String" />
+    <aura:attribute name="confirmCallback" type="Object" />
+    <aura:attribute name="cancelCallback" type="Object" />
+    
+	<div role="dialog" tabindex="-1" aria-labelledby="header43" class="slds-modal slds-fade-in-open">
+      <div class="slds-modal__container">
+        <div class="slds-modal__header">
+          <button class="slds-button slds-modal__close slds-button--icon-inverse" title="Close" onclick="{!v.cancelCallback}">
+              <lightning:icon iconName="utility:close" size="small" alternativeText="Indicates approval"/>
+            <span class="slds-assistive-text">Close</span>
+          </button>
+          <h2 id="header43" class="slds-text-heading--small">{!v.header}</h2>
+        </div>
+        <div class="slds-modal__content slds-p-around--small">
+          <p>{!v.message}</p>
+          </div>
+        <div class="slds-modal__footer slds-modal__footer--directional">
+          <button class="slds-button slds-button--neutral" onclick="{!v.cancelCallback}">Cancel</button>
+          <button class="slds-button slds-button--brand" onclick="{!v.confirmCallback}">Confirm</button>
+        </div>
+      </div>
+	</div>
+	
+    <div class="slds-backdrop slds-backdrop--open"></div>
+</aura:component>

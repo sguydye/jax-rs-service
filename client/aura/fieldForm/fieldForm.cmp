@@ -1,0 +1,6 @@
+<aura:component extends="c:abstractFieldForm" >
+    <aura:registerEvent name="addNewField" type="c:addNewField" />   
+	<div class="slds-form-element field-form-element confirm-button">
+       	<button type="button" class="slds-button slds-button--brand" onclick="{!c.handleAddField}">Add</button>
+    </div>
+</aura:component>

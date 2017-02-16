@@ -1,0 +1,47 @@
+<aura:component >
+    <aura:attribute name="showForm" type="Boolean" default="false" />     
+    <aura:attribute name="entity" type="Object" /> 
+    <aura:registerEvent name="showFieldForm" type="c:showFieldForm" />
+    <aura:registerEvent name="createEntity" type="c:createEntity" />
+    <aura:handler name="init" value="{!this}" action="{!c.initialize}" />
+    <div class="slds-grid slds-grid--vertical-align-start entity-form">
+        <aura:if isTrue="{!!v.showForm}" >
+        	<lightning:button label="Add new" iconName="utility:add" name="addNew" onclick="{!c.handleAdd }" />	
+            <aura:set attribute="else">
+                 <div aria-labeledby="newentityform" >
+                    <form class="slds-form--inline">                        
+                      <div class="slds-form-element">
+                        <label class="slds-form-element__label" for="name">
+                             <abbr class="slds-required" title="required">*</abbr>Entity Name</label>
+                        <div class="slds-form-element__control">
+                          <ui:inputText class="slds-input" required="true" aura:id="entityName" value="{!v.entity.name}" />
+                        </div>                
+                      </div>
+                        
+                      <div class="slds-form-element">
+                        <label class="slds-form-element__label" for="dbname">DB name</label>
+                        <div class="slds-form-element__control">
+                          <ui:inputText class="slds-input" aura:id="dbName" value="{!v.entity.dbName}" />
+                        </div>
+                      </div> 
+                        
+                      <div class="slds-form-element">
+                        <button type="button" class="slds-button slds-button--brand" onclick="{!c.handleAddFields}">Add Fields</button>
+                      </div>             
+                      
+                      <div class="slds-form-element">
+                        <button type="button" class="slds-button slds-button--brand" onclick="{!c.handleCreate}">Create</button>
+                      </div>                      
+                      
+                      <lightning:buttonIcon iconName="utility:close" variant="bare" onclick="{!c.handleCancel }" alternativeText="Cancel add." />
+                        
+                    </form>            
+                </div>                
+                
+            </aura:set>
+        </aura:if>        
+        
+    	
+        
+   </div>
+</aura:component>
