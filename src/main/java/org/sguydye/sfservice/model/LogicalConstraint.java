@@ -30,7 +30,7 @@ public class LogicalConstraint extends GenericEntity implements Serializable {
     @Enumerated(EnumType.STRING)
     private ConstraintType type;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
             name = "Constraint_Field",
             joinColumns = @JoinColumn(name = "constraintID"),

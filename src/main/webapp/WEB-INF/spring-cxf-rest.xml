@@ -51,14 +51,18 @@
             <cxf:logging/>
         </jaxrs:features>
         <jaxrs:providers>
+            <!-- <bean class="org.sguydye.sfservice.util.filters.CORSFilter" /> -->
             <ref bean="jsonProvider" />
             <bean class="org.sguydye.sfservice.util.exception.mapper.HibernateExceptionMapper"/>
             <ref bean="validationExceptionMapper"/>
-            <bean class="org.sguydye.sfservice.util.filters.CustomEntityResponseFilter" />
             <bean class="org.sguydye.sfservice.util.exception.mapper.EntityNotFoundExceptionMapper"/>
+            <bean class="org.sguydye.sfservice.util.exception.mapper.FieldNotFoundExceptionMapper" />
         </jaxrs:providers>
     </jaxrs:server>
 
+    <bean id="corsFilter" class="org.apache.cxf.rs.security.cors.CrossOriginResourceSharingFilter" >
+        <property name="allowOrigins" value="true" />
+    </bean>
     <bean id="validationExceptionMapper" class="org.sguydye.sfservice.util.exception.mapper.ValidationExceptionMapper">
         <property name="addMessageToResponse" value="true"/>
     </bean>

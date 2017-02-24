@@ -1,5 +1,8 @@
 package org.sguydye.sfservice.service;
 
+import org.apache.cxf.rs.security.cors.CorsHeaderConstants;
+import org.apache.cxf.rs.security.cors.CrossOriginResourceSharing;
+import org.apache.cxf.rs.security.cors.LocalPreflight;
 import org.sguydye.sfservice.dao.EntityDao;
 import org.sguydye.sfservice.model.LogicalEntity;
 import org.sguydye.sfservice.util.exception.EntityNotFoundException;
@@ -9,7 +12,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.ws.rs.OPTIONS;
+import javax.ws.rs.Path;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.Response;
 import java.util.List;
+
 
 @Transactional
 @Service("entityService")
@@ -25,6 +34,7 @@ public class EntityServiceImpl implements EntityService {
         LogicalEntity entity = entityDao.find(id).orElseThrow(EntityNotFoundException::new);
         return entity;
     }
+
 
     @Override
     public List<LogicalEntity> getAllEntities() {
@@ -49,4 +59,15 @@ public class EntityServiceImpl implements EntityService {
         entityDao.delete(entity);
     }
 
+/*
+    @OPTIONS
+    @Path("/")
+    @LocalPreflight
+    public Response options() {
+        LOG.debug("INVOKED");
+        return Response.status(Response.Status.NOT_FOUND)
+                .header(CorsHeaderConstants.HEADER_AC_ALLOW_HEADERS, "DELETE")
+                .build();
+    }
+*/
 }

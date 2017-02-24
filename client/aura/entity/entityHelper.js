@@ -1,5 +1,14 @@
 ({
     callServerMock : function() {
+        
+        /*
+        var xhr = new XMLHttpRequest();
+        console.log(xhr);
+   		xhr.open('GET', 'https://54.172.220.99:8443/jax-rs-service-0.1.0/services/entity/',  true); 
+   		xhr.send(null);
+        */
+        
+        
         var entities = [{ "id" : 1,
             			  "name" : "Taxes",
                           "dbName" : "DB1",

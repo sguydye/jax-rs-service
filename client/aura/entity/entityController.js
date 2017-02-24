@@ -1,7 +1,14 @@
 ({
     initialize : function(component, event, helper) {
         var entities = helper.callServerMock();        
-		component.set("v.entities", entities); 
+		component.set("v.entities", entities);
+		var action = component.get("c.getAll");
+        action.setCallback(this, function(response) {
+           console.log(response.getError());
+           console.log(response.getState());
+           console.log(response.getReturnValue());
+        });
+		$A.enqueueAction(action);        
 	},
     refreshEntities : function(component, event, helper) {
         $A.util.toggleClass(component.find("spinner"), "slds-hide");
@@ -12,7 +19,7 @@
         }, 1000);
     },    
 	toggleFieldForm : function(component, event, helper) {
-		component.set("v.showFieldForm", event.getParam("show"));
+		component.set("v.showFieldForm", event.getParam("show"));        
 	},
     createEntity : function(component, event, helper) {
         var entityForm = component.find("entityForm");

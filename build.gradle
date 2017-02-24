@@ -1,31 +1,47 @@
-project.group 'com.sguydye'
-project.version '0.1.0'
 buildscript {
     repositories {
+
         maven {
-            url 'http://localhost:8082/artifactory/plugins-release'
+            url "https://plugins.gradle.org/m2/"
+        }
+        /*
+        maven {
+            url "http://localhost:8082/artifactory/plugins-release"
             credentials {
                 username = "${artifactory_user}"
                 password = "${artifactory_password}"
             }
-        }
+        } */
+
     }
     dependencies {
-       // classpath "gradle.plugin.com.boxfuse.client:flyway-release:4.0.3"
+        classpath "gradle.plugin.com.boxfuse.client:flyway-release:4.1.1"
         classpath "org.flywaydb:flyway-gradle-plugin:4.0.3"
         classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4.4.0"
         classpath 'com.bmuschko:gradle-docker-plugin:3.0.5'
     }
+
 }
+plugins {
+    id "java"
+    id "war"
+    id "jacoco"
+    id "org.flywaydb.flyway" version "4.1.1"
+    id "com.jfrog.artifactory" version "4.4.13"
+    id "maven-publish"
+   // id "com.bmuschko.docker-remote-api" version "3.0.5"
+}
+
 
 configurations {
     sfant
     driver
 }
-
+/*
 import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
 import com.bmuschko.gradle.docker.tasks.DockerInfo
 import com.bmuschko.gradle.docker.tasks.DockerVersion
+*/
 
 project.ext {
     springVersion = "4.3.4.RELEASE"
@@ -39,7 +55,8 @@ project.ext {
     tomcatHome = "$System.env.CATALINA_HOME"
     cxfArtifacts = [
             'cxf-rt-transports-http',
-            'cxf-rt-frontend-jaxrs'
+            'cxf-rt-frontend-jaxrs',
+            'cxf-rt-rs-security-cors'
            // 'cxf-rt-transports-local'
          //   'cxf-rt-transports-http-jetty'
     ]
@@ -63,24 +80,21 @@ project.ext {
     ]
 }
 
-apply plugin: 'java'
-apply plugin: 'war'
-apply plugin: 'idea'
-apply plugin: 'jacoco'
-apply plugin: 'org.flywaydb.flyway'
-apply plugin: 'jetty'
-apply plugin: 'com.jfrog.artifactory'
-apply plugin: 'com.bmuschko.docker-remote-api'
-
-
 repositories {
+    mavenCentral()
+
+    maven {
+        url "http://localhost:8082/artifactory/libs-release-local"
+        credentials {
+            username = "${artifactory_user}"
+            password = "${artifactory_password}"
+        }
+    }
+/*
     maven {
         url "https://plugins.gradle.org/m2/"
     }
-
-    //mavenLocal()
-    //jcenter()
-   // mavenCentral()
+*/
 }
 
 dependencies {
@@ -94,22 +108,26 @@ dependencies {
         compile "org.hibernate:$artifact:$hibernateVersion"
        // testCompile "org.hibernate:$artifact:$hibernateVersion"
     }
+
     compile "com.microsoft.sqlserver:mssql-jdbc:$MSSQLDriverVersion"
+    compile "com.microsoft.sqlserver:mssql-jdbc:6.1.0.jre8"
     compile "org.hibernate:hibernate-validator:$hibernateValidatorVersion"
     compile "com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:2.8.5"
     compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.8.5"
     compile "org.slf4j:slf4j-api:1.7.7"
     compile "ch.qos.logback:logback-classic:1.1.2"
     compile "ch.qos.logback:logback-core:1.1.2"
+    /*
     testCompile "org.mockito:mockito-all:1.9.5"
     testCompile 'org.apache.cxf:cxf-rt-rs-client:3.1.8'
     testCompile "org.apache.cxf:cxf-rt-transports-local:$cxfVersion"
     testCompile "org.springframework:spring-test:$springVersion"
     testCompile "junit:junit:4.12"
-    testCompile "org.hamcrest:hamcrest-core"
+    testCompile "org.hamcrest:hamcrest-core:1.3"
     testCompile "org.hamcrest:hamcrest-library:1.3"
-    driver "com.microsoft.sqlserver:mssql-jdbc:6.1.0.jre8"
-    sfant files('./ant-salesforce.jar')
+    */
+    driver "com.microsoft.sqlserver:mssql-jdbc:$MSSQLDriverVersion"
+    sfant "com.salesforce:salesforce-ant:1.0"
 }
 
 URLClassLoader loader = GroovyObject.class.classLoader
@@ -179,13 +197,17 @@ artifactory {
     contextUrl = "${artifactory_contextUrl}"   //The base Artifactory URL if not overridden by the publisher/resolver
     publish {
         repository {
-            repoKey = 'libs-release-local'
+            repoKey = 'libs-snapshot-local'
             username = "${artifactory_user}"
             password = "${artifactory_password}"
             maven = true
 
         }
+        defaults {
+            publications ('mavenJava')
+        }
     }
+
     resolve {
         repository {
             repoKey = 'libs-release'
@@ -196,11 +218,22 @@ artifactory {
         }
     }
 }
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+}
+
+
 task createDB(type:SQLTask)
 task deployToTomcat(type : Copy) {
     from war.archivePath
     into "${tomcatHome}/webapps"
 }
+
 
 
 ant.taskdef(resource: 'com/salesforce/antlib.xml',
@@ -235,6 +268,8 @@ task sfpush {
     }
 }
 
+
+/*
 docker {
     url = project.docker_url
     certPath = new File(System.properties['user.home'], '.docker/machine/machines/default')
@@ -257,8 +292,9 @@ task buildImage(type: DockerBuildImage) {
 }
 
 task dockerversion(type: DockerVersion) {}
+*/
 
 deployToTomcat.dependsOn war
 check.dependsOn jacocoTestReport
-check.dependsOn flywayMigrate
+build.dependsOn flywayMigrate
 build.dependsOn deployToTomcat

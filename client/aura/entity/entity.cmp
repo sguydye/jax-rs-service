@@ -1,4 +1,4 @@
-<aura:component >
+<aura:component controller="EntityController">
     <aura:attribute name="entities" type="Object[]" />
     <aura:attribute name="showFieldForm" type="Boolean" default="false" />
     <aura:attribute name="deletedEntityId" type="Integer" />
