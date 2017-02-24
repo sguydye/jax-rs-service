@@ -1,32 +1,34 @@
 ({
     initialize : function(component, event, helper) {
-        
+		var field = component.get("v.field");
         var map =  { "DECIMAL" : { "length" : false, "mantissa" : false },
                            "BOOLEAN" : { "length" : true, "mantissa" : true },
-                           "STRING" : { "length" : false, "mantissa" : true },
-                           "MONEY" : { "length" : false, "mantissa" : false }            
+                           "VARCHAR" : { "length" : false, "mantissa" : true },
+                           "MONEY" : { "length" : false, "mantissa" : false },
+                    	   "FLOAT" : { "length": false, "mantissa" : false },
+                    	   "DATETIME" : { "length" : true, "mantissa" : true },
+                    	   "INT" : { "length": false, "mantissa" : false }
         };
         component.set("v.disabledFieldsMap", map);
         var fieldlength = component.find("fieldlength");
-        fieldlength.set("v.disabled", map[component.get("v.field.type")]["length"]);
+        fieldlength.set("v.disabled", map[field.type]["length"]);  
         var fieldmantissa = component.find("fieldmantissa");
-        fieldmantissa.set("v.disabled", map[component.get("v.field.type")]["mantissa"]);
-        var constraints = component.find("constraints");
-        var field = component.get("v.field");
+        fieldmantissa.set("v.disabled", map[field.type]["mantissa"]);
+        var constraints = component.find("constraints");               
         constraints.forEach(function(cmp) {           
             cmp.set("v.disabled", true);                
-            if( field.constraints != undefined ) {
+            if( field.constraints !== undefined ) {                
                 var temp = field.constraints.filter(function(constraint) {
                     return constraint.type === cmp.get("v.value"); 
-                });                
-                if(temp.length > 0) {
+                });                 
+                if( temp.length > 0) {
                     cmp.set("v.checked", true);                      
                 }
             }   
         });
         
         var fieldTypesSelect = component.find("fieldTypes");
-        fieldTypesSelect.set("v.value", component.get("v.field.type"));
+        fieldTypesSelect.set("v.value", component.get("v.field.type"));        
     },
 	toggleDetails : function(component, event, helper) {
 		helper.toggleDetails(component);

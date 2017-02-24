@@ -1,88 +1,17 @@
 ({
-    callServerMock : function() {
-        
-        /*
-        var xhr = new XMLHttpRequest();
-        console.log(xhr);
-   		xhr.open('GET', 'https://54.172.220.99:8443/jax-rs-service-0.1.0/services/entity/',  true); 
-   		xhr.send(null);
-        */
-        
-        
-        var entities = [{ "id" : 1,
-            			  "name" : "Taxes",
-                          "dbName" : "DB1",
-                          "createdDate" : "10/01/2017",
-                          "lastModifiedDate" : "21/01/2017",
-                          "fields" : [
-                              {
-                                  "name" : "Tax Type",
-                                  "type" : "STRING",
-                                  "length" : 60,
-                                  "constraints" : [
-                                      {
-                                          "type" : "UNIQUE"
-                                      }, {
-                                          "type" : "NOTNULL"
-                                      }
-                                  ]
-                              },
-                              {
-                                  "name" : "Amout",
-                                  "type" : "MONEY",
-                                  "length" : 30,
-                                  "mantissa" : 2,
-                                  "constraints" : [
-                                      {
-                                          "type" : "NOTNULL"
-                                      }
-                                  ]
-                              },
-                              {
-                                  "name" : "Paid",
-                                  "type" : "BOOLEAN"                                  
-                              }
-                          ]
-                        },{ "id" : 2,
-                            "name" : "Expenses",
-                            "dbName" : "DB1",
-                            "createdDate" : "10/01/2017",
-                            "lastModifiedDate" : "21/01/2017"            
-                        },{ "id" : 3, 
-            				"name" : "Profits",
-            				"dbName" : "DB2",
-            				"createdDate" : "10/01/2017",
-            				"lastModifiedDate" : "21/01/2017"
-            
-        }];
-        
-        entities.forEach(function(entity) {
-            if(entity.fields === undefined) 
-                entity.fields = [];
-            entity.fields.forEach(function(field) {
-                if(field.constraints === undefined){
-                    field.constraints = [];
-                } 
-            });
+    persist : function(component, entity, resolve, reject) {    
+        var postAction = component.get("c.post");        
+        postAction.setParams({
+            "entity" : JSON.stringify(entity) 
         });
-        return entities;
-	},
-	persist : function(component, entity, callback) {
-        //persist entity        
-        $A.util.toggleClass(component.find("spinner"), "slds-hide");
-        console.log("Sending post request for new entity");
-		var cb = arguments[arguments.length - 1];		       
-        window.setTimeout($A.getCallback(function() {
-            $A.util.toggleClass(component.find("spinner"), "slds-hide");
-            console.log("Request success. Entity created:");
-            console.log(entity);            
-        	var entities = component.get("v.entities");
-        	entities.push(entity);
-        	component.set("v.entities", entities);            
-            if( (typeof cb === 'function') && (component.isValid()) ) {
-                callback(component, "success", "Entity successfuly created : " + entity.name);    
-            }			            
-        }), 2000);  	
+        postAction.setCallback(this, function(response) {            
+            if(response.getState() === 'SUCCESS') {				                
+				resolve(response.getReturnValue());                
+            } else if(response.getState() === 'ERROR') {                
+                reject(response.getError());
+            }           
+        });
+        $A.enqueueAction(postAction);
 	},
     createConfirmModal : function(component, event) {
         $A.createComponent(
@@ -120,23 +49,28 @@
     },
     sendDeleteRequest : function(component, callback) {
         var cb = arguments[arguments.length - 1];
-        $A.util.toggleClass(component.find("spinner"), "slds-hide");
-        console.log("Sending delete request");
-        //on success        
-        setTimeout($A.getCallback(function() {            
-            //alternative - send get request to refresh entitites
-            component.set("v.entities",
+        $A.util.toggleClass(component.find("spinner"), "slds-hide");        
+       	var deleteAction = component.get("c.doDelete");
+        deleteAction.setParams({
+            'id' : component.get("v.deletedEntityId") 
+        });
+        deleteAction.setCallback(this, function(response) {
+            var state = response.getState();
+            if (component.isValid() && state === "SUCCESS") {
+            	component.set("v.entities",
                           component.get("v.entities")
                             .filter(function(value) {
                                 return value.id !== component.get("v.deletedEntityId");
                             })
-                         );                
-            $A.util.toggleClass(component.find("spinner"), "slds-hide");
-            if( (typeof cb === 'function') && (component.isValid()) ) {
-                callback(component, "success", "Entity successfully deleted. ID : " + component.get("v.deletedEntityId"));
+                         );
+                if( (typeof cb === 'function') && (component.isValid()) ) {
+                    callback(component, "success", "Entity successfully deleted. ID : " + component.get("v.deletedEntityId"));
+                }
             }
-        }), 2000);
-
+            $A.util.toggleClass(component.find("spinner"), "slds-hide");
+            
+        });
+        $A.enqueueAction(deleteAction);
     },
     createToast : function(component, type, message) {        
         $A.createComponent(
@@ -208,6 +142,21 @@
             	return cmp.getLocalId() !== "fieldPanel"
             });
         } 
-        component.set("v.body", body);        
+        component.set("v.body", body);
+    },
+    callGetAll : function(component, spinner, toast) {
+		spinner(component);
+        var action = component.get("c.getAll");
+        action.setCallback(this, function(response) {
+            if(response.getState() === 'SUCCESS') {
+           		var val = response.getReturnValue();
+           		var entities = JSON.parse(response.getReturnValue());            
+           		component.set("v.entities", entities);
+            } else {
+                toast(component, "warning", "Something went wrong. Couldn't retrieve the data");
+            }
+            spinner(component);
+        });
+		$A.enqueueAction(action);
     }
 })

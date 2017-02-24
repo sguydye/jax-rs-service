@@ -4,5 +4,9 @@
         <members>*</members>
         <name>AuraDefinitionBundle</name>
     </types>
+    <types>
+        <members>*</members>
+        <name>ApexClass</name>
+    </types>
     <version>38.0</version>
 </Package>

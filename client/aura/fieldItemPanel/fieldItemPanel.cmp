@@ -1,6 +1,6 @@
 <aura:component >
     <aura:attribute name="field" type="Object"/>
-    <aura:attribute name="fieldTypes" type="String[]" default="BOOLEAN,DECIMAL,STRING,MONEY" />
+    <aura:attribute name="fieldTypes" type="String[]" default="INT,VARCHAR,FLOAT,BOOLEAN,DATETIME,DECIMAL" />
     <aura:attribute name="fieldContraints" type="String[]" default="NOTNULL,UNIQUE" />
     <aura:attribute name="disabledFieldsMap" type="Object" />
     <aura:attribute name="entityName" type="String" default="Entity Name" />

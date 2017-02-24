@@ -10,7 +10,6 @@
                 <aura:iteration items="{!v.items}" var="item">
                     <c:campingListItem item="{!item}"/>
         		</aura:iteration>
-    </div>
-    
+    </div>   
     
 </aura:component>

@@ -55,7 +55,7 @@
         
         <td role="gridcell" class="slds-cell-edit">
         	<span class="slds-grid slds-grid--align-spread">
-            	<span class="slds-truncate" title="{!v.entity.lastModified}">{!v.entity.lastModifiedDate}</span>
+            	<span class="slds-truncate" title="{!v.entity.lastModified}">{!v.entity.lastModified}</span>
             <lightning:buttonIcon iconName="utility:lock" class="slds-button--icon slds-cell-edit__button slds-m-left--x-small" tabindex="-1" variant="bare" onclick="" alternativeText="Field is not editable" />
             </span>     
         </td>
